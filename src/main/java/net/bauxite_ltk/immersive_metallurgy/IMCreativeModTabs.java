@@ -20,9 +20,9 @@ public class IMCreativeModTabs {
             .icon(() -> IEItems.Metals.INGOTS.get(EnumMetals.STEEL).get().getDefaultInstance())
             .displayItems((parameters, output) -> {
 
+                output.accept(IMBlocks.ADVANCED_COKE_OVEN_BRICKS);
                 output.accept(IMBlocks.ELECTRIC_CABLE_LV.asItem());
                 output.accept(IMBlocks.ELECTRIC_CABLE_MV.asItem());
-                output.accept(IMBlocks.CASTING_CHANNEL);
                 output.accept(IMBlocks.MASON_PINE_LOG);
                 output.accept(IMBlocks.MASON_PINE_WOOD);
                 output.accept(IMBlocks.STRIPPED_MASON_PINE_LOG);
@@ -136,6 +136,7 @@ public class IMCreativeModTabs {
                 output.accept(IMItems.PIG_IRON_BLAST_FURNACE_PELLET);
                 output.accept(IMItems.PIG_IRON_INGOT);
                 output.accept(IMBlocks.PIG_IRON_BLOCK);
+                output.accept(IMBlocks.CASTING_CHANNEL);
                 output.accept(IMItems.HOT_AIR_BUCKET);
                 output.accept(IMItems.WATER_GAS_BUCKET);
                 output.accept(IMItems.BLAST_FURNACE_GAS_BUCKET);

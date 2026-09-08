@@ -2,6 +2,7 @@ package net.bauxite_ltk.immersive_metallurgy.datagen;
 
 import blusunrize.immersiveengineering.api.IETags;
 import net.bauxite_ltk.immersive_metallurgy.block.IMBlocks;
+import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblocks;
 import net.bauxite_ltk.immersive_metallurgy.fluid.IMFluids;
 import net.bauxite_ltk.immersive_metallurgy.tags.IMTags;
 import net.bauxite_ltk.immersive_metallurgy.util.IMUtils;
@@ -88,6 +89,14 @@ public class IMBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.WOODEN_BUTTONS)
                 .add(IMBlocks.MASON_PINE_BUTTON.get());
 
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(IMMultiblocks.BALL_MILL.getBlock())
+                .add(IMMultiblocks.HYDROCYCLONE.getBlock())
+                .add(IMMultiblocks.FLOTATION_CELL.getBlock())
+                .add(IMMultiblocks.THICKENER.getBlock())
+                .add(IMMultiblocks.ELITE_BLAST_FURNACE.getBlock())
+                .add(IMMultiblocks.HYDROCYCLONE.getBlock())
+                .add(IMMultiblocks.CONTINUOUS_CASTING_MACHINE.getBlock());
 
 
     }

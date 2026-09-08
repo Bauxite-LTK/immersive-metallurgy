@@ -47,6 +47,7 @@ public class IMBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(IMBlocks.SAP_COLLECTOR.get());
         dropSelf(IMBlocks.CASTING_CHANNEL.get());
         dropSelf(IMBlocks.PIG_IRON_BLOCK.get());
+        dropSelf(IMBlocks.ADVANCED_COKE_OVEN_BRICKS.get());
         add(IMBlocks.MASON_PINE_LEAVES.get(),
                 createLeavesDrops(IMBlocks.MASON_PINE_SAPLING.get(),
                         IMBlocks.MASON_PINE_SAPLING.get(),

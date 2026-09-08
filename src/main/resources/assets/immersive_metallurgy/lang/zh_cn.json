@@ -264,6 +264,8 @@
   "block.immersive_metallurgy.mason_pine_leaves": "马尾松树叶",
   "block.immersive_metallurgy.mason_pine_sapling": "马尾松树苗",
   "block.immersive_metallurgy.pig_iron_block": "生铁块",
+  "block.immersive_metallurgy.advanced_coke_oven_bricks": "强化焦炉砖",
+
 
   "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t ",
   "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t ",

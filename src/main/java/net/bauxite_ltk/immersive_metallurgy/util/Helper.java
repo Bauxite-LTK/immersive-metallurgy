@@ -54,32 +54,9 @@ public class Helper {
         return FORMATTER.format(number);
     }
 
-    public static void applyRotationX(double pivotY, double pivotZ, double degree, PoseStack poseStack){
-        //Rx(y,z) = T(y,z) * Rx(0,0) * T(-y,-z)
-        poseStack.translate(0, pivotY / 16.0, pivotZ / 16.0);
-        poseStack.mulPose(Axis.XP.rotationDegrees((float) degree));
-        poseStack.translate(0, -pivotY / 16.0, -pivotZ / 16.0);
-    }
 
-    public static void applyRotationY(double pivotX, double pivotZ, double degree, PoseStack poseStack){
-        //Rx(x,z) = T(x,z) * R(0,0) * T(-x,-z)
-        poseStack.translate(pivotX / 16.0, 0, pivotZ / 16.0);
-        poseStack.mulPose(Axis.YP.rotationDegrees((float) degree));
-        poseStack.translate(-pivotX / 16.0, 0, -pivotZ / 16.0);
-    }
 
-    public static void applyRotationZ(double pivotX, double pivotY, double degree, PoseStack poseStack){
-        //Rx(x,z) = T(x,z) * R(0,0) * T(-x,-z)
-        poseStack.translate(pivotX / 16.0, pivotY / 16.0, 0);
-        poseStack.mulPose(Axis.ZP.rotationDegrees((float) degree));
-        poseStack.translate(-pivotX / 16.0, -pivotY / 16.0, 0);
-    }
 
-    public static void applyScale(double pivotX, double pivotY, double pivotZ, float scaleX, float scaleY, float scaleZ, PoseStack poseStack){
-        poseStack.translate(pivotX / 16.0, pivotY / 16.0, pivotZ / 16.0);
-        poseStack.scale(scaleX, scaleY, scaleZ);
-        poseStack.translate(-pivotX / 16.0, -pivotY / 16.0, -pivotZ / 16.0);
-    }
 
 
 
@@ -150,24 +127,9 @@ public class Helper {
         return Mth.clamp(var3*tolerance,0,1);
     }
 
-    public static final Map<Direction, Quaternionf> ROTATE_FOR_FACING = Util.make(
-            new EnumMap<>(Direction.class), m -> {
-                for(Direction facing : DirectionUtils.BY_HORIZONTAL_INDEX)
-                    m.put(facing, new Quaternionf().rotateY(Mth.DEG_TO_RAD*(180-facing.toYRot())));
-            }
-    );
 
-    public static void rotateForFacingNoCentering(PoseStack stack, Direction facing)
-    {
-        stack.mulPose(ROTATE_FOR_FACING.get(facing));
-    }
 
-    public static void rotateForFacing(PoseStack stack, Direction facing)
-    {
-        stack.translate(0.5, 0.5, 0.5);
-        rotateForFacingNoCentering(stack, facing);
-        stack.translate(-0.5, -0.5, -0.5);
-    }
+
 
     public static void playSound(Level level, BlockPos worldPosition, SoundEvent soundEvent){
         level.playSound(null, worldPosition, soundEvent, SoundSource.BLOCKS, 1.0F + level.getRandom().nextFloat(), level.getRandom().nextFloat() + 0.7F + 0.3F);

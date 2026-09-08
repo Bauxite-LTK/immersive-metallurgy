@@ -2,14 +2,13 @@ package net.bauxite_ltk.immersive_metallurgy.render;
 
 import blusunrize.immersiveengineering.api.multiblocks.blocks.env.IMultiblockContext;
 import blusunrize.immersiveengineering.api.multiblocks.blocks.util.MultiblockOrientation;
-import blusunrize.immersiveengineering.client.render.tile.BERenderUtils;
 import blusunrize.immersiveengineering.client.render.tile.IEMultiblockRenderer;
-import blusunrize.immersiveengineering.client.utils.GuiHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.logic.ThickenerLogic;
+import net.bauxite_ltk.immersive_metallurgy.render.utils.IMAnimationHelper;
 import net.bauxite_ltk.immersive_metallurgy.util.Helper;
-import net.bauxite_ltk.immersive_metallurgy.util.IMRenderHelper;
+import net.bauxite_ltk.immersive_metallurgy.render.utils.IMRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -41,7 +40,7 @@ public class ThickenerRender extends IEMultiblockRenderer<ThickenerLogic.State> 
         boolean active = ctx.getState().shouldRenderActive();
         float agitatorAngle = ctx.getState().getAgitatorAngle()+ (active? 1.5f * partialTicks: 0);
 
-        Helper.applyRotationY(8,8,agitatorAngle,matrixStack);
+        IMAnimationHelper.applyRotationY(8,8,agitatorAngle,matrixStack);
 
         blockRenderer.getModelRenderer().renderModel(
                 matrixStack.last(), buffer, null, model,
@@ -151,7 +150,7 @@ public class ThickenerRender extends IEMultiblockRenderer<ThickenerLogic.State> 
         matrixStack.scale(baseScale, baseScale, baseScale);
         matrixStack.translate(tx,ty,tz);
         matrixStack.translate(0, height,0);
-        Helper.applyRotationX(0,0,90,matrixStack);
+        IMAnimationHelper.applyRotationX(0,0,90,matrixStack);
         IMRenderHelper.drawRepeatedFluidSprite(bufferSource.getBuffer(RenderType.translucent()), matrixStack, fluidStack,
                 0, 0, w, h);
 

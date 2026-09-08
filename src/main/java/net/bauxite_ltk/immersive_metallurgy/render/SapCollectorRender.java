@@ -4,6 +4,7 @@ import blusunrize.immersiveengineering.api.multiblocks.blocks.util.MultiblockOri
 import blusunrize.immersiveengineering.client.utils.GuiHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.bauxite_ltk.immersive_metallurgy.block.sapCollector.SapCollectorBlockEntity;
+import net.bauxite_ltk.immersive_metallurgy.render.utils.IMAnimationHelper;
 import net.bauxite_ltk.immersive_metallurgy.util.Helper;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -58,11 +59,11 @@ public class SapCollectorRender implements BlockEntityRenderer<SapCollectorBlock
     {
         float baseScale = .0625f;
         matrixStack.pushPose();
-        Helper.rotateForFacing(matrixStack, facing);
+        IMAnimationHelper.rotateForFacing(matrixStack, facing);
         matrixStack.scale(baseScale, baseScale, baseScale);
         matrixStack.translate(minX,bottom,minZ);
         matrixStack.translate(0, height,0);
-        Helper.applyRotationX( bottom+height, minZ,90,matrixStack);
+        IMAnimationHelper.applyRotationX( bottom+height, minZ,90,matrixStack);
         GuiHelper.drawRepeatedFluidSprite(bufferIn.getBuffer(RenderType.translucent()), matrixStack, fluidStack,
                 0, 0, maxX-minX, maxZ-minZ);
         matrixStack.popPose();

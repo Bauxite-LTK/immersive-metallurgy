@@ -7,6 +7,8 @@ import blusunrize.immersiveengineering.client.render.tile.IEMultiblockRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.logic.BallMillLogic;
+import net.bauxite_ltk.immersive_metallurgy.render.utils.IMAnimationHelper;
+import net.bauxite_ltk.immersive_metallurgy.render.utils.IMRenderHelper;
 import net.bauxite_ltk.immersive_metallurgy.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -43,7 +45,7 @@ public class BallMillRender extends IEMultiblockRenderer<BallMillLogic.State> {
         boolean active = ctx.getState().shouldRenderActive();
         float barrelAngle = ctx.getState().getBarrelAngle()+ (active? 9 * partialTicks: 0);
 
-        Helper.applyRotationX(14,0,barrelAngle,matrixStack);
+        IMAnimationHelper.applyRotationX(14,0,barrelAngle,matrixStack);
 
 
 

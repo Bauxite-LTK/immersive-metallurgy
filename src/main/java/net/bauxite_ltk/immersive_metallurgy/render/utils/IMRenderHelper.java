@@ -1,10 +1,10 @@
-package net.bauxite_ltk.immersive_metallurgy.util;
+package net.bauxite_ltk.immersive_metallurgy.render.utils;
 
 import blusunrize.immersiveengineering.api.multiblocks.blocks.util.MultiblockOrientation;
 import blusunrize.immersiveengineering.client.utils.InvertingVertexBuffer;
-import blusunrize.immersiveengineering.client.utils.TransformingVertexBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.bauxite_ltk.immersive_metallurgy.render.TransformingVertexBuilderForInverting;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;

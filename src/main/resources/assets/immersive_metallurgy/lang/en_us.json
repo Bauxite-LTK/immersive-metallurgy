@@ -264,6 +264,7 @@
   "block.immersive_metallurgy.mason_pine_leaves": "Mason Pine Leaves",
   "block.immersive_metallurgy.mason_pine_sapling": "Mason Pine Sapling",
   "block.immersive_metallurgy.pig_iron_block": "Pig Iron Block",
+  "block.immersive_metallurgy.advanced_coke_oven_bricks": "Advanced Coke Oven Bricks",
 
   "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t ",
   "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t ",

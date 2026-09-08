@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "immersiveengineering:cokebrick"
+    },
+    {
+      "item": "immersiveengineering:cokebrick"
+    },
+    {
+      "item": "immersiveengineering:cokebrick"
+    },
+    {
+      "item": "immersiveengineering:cokebrick"
+    },
+    {
+      "tag": "c:plates/steel"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "immersive_metallurgy:advanced_coke_oven_bricks"
+  }
+}

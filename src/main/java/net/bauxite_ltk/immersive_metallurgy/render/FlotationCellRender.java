@@ -8,6 +8,7 @@ import blusunrize.immersiveengineering.client.utils.GuiHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.logic.FlotationCellLogic;
+import net.bauxite_ltk.immersive_metallurgy.render.utils.IMAnimationHelper;
 import net.bauxite_ltk.immersive_metallurgy.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,7 +39,7 @@ public class FlotationCellRender extends IEMultiblockRenderer<FlotationCellLogic
         boolean active = ctx.getState().isActive();
         float bladeAngle = ctx.getState().getBladeAngle()+ (active? 9 * partialTicks: 0);
 
-        Helper.applyRotationX(27,31,-bladeAngle,matrixStack);
+        IMAnimationHelper.applyRotationX(27,31,-bladeAngle,matrixStack);
 
 
 
@@ -101,7 +102,7 @@ public class FlotationCellRender extends IEMultiblockRenderer<FlotationCellLogic
         matrixStack.scale(baseScale, baseScale, baseScale);
         matrixStack.translate(-24,0,-2);
         matrixStack.translate(0, height,0);
-        Helper.applyRotationX(height,-2,90,matrixStack);
+        IMAnimationHelper.applyRotationX(height,-2,90,matrixStack);
         GuiHelper.drawRepeatedFluidSprite(bufferIn.getBuffer(RenderType.translucent()), matrixStack, fluidStack,
                 0, 0, 64, 39);
         matrixStack.popPose();

@@ -1,4 +1,4 @@
-package net.bauxite_ltk.immersive_metallurgy.util;
+package net.bauxite_ltk.immersive_metallurgy.render;
 
 import blusunrize.immersiveengineering.api.utils.Color4;
 import blusunrize.immersiveengineering.client.utils.InvertingVertexBuffer;
