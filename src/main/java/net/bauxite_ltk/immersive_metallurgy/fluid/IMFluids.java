@@ -103,6 +103,18 @@ public class IMFluids {
                     BaseFlowingFluid.Flowing::new
             );
 
+    public static final FluidHolder<BaseFlowingFluid> COKE_OVEN_GAS  =
+            register(
+                    "coke_oven_gas",
+                    properties -> properties
+                            .block(IMBlocks.COKE_OVEN_GAS)
+                            .bucket(IMItems.COKE_OVEN_GAS_BUCKET),
+                    gasLike()
+                            .descriptionId("fluid.immersive_metallurgy.coke_oven_gas"),
+                    BaseFlowingFluid.Source::new,
+                    BaseFlowingFluid.Flowing::new
+            );
+
 
     public static final FluidHolder<BaseFlowingFluid> MASON_PINE_SAP =
             register(

@@ -57,6 +57,10 @@ public class IMMenuTypes {
             "continuous_casting_machine", ContinuousCastingMachineMenu::makeServer, ContinuousCastingMachineMenu::makeClient
     );
 
+    public static final MultiblockContainer<AdvancedCokeOvenLogic.State, AdvancedCokeOvenMenu> ADVANCED_COKE_OVEN = registerMultiblock(
+            "advanced_coke_oven", AdvancedCokeOvenMenu::makeServer, AdvancedCokeOvenMenu::makeClient
+    );
+
 
     public static <S extends IMultiblockState, C extends IEContainerMenu>
     MultiblockContainer<S, C> registerMultiblock(

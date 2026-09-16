@@ -291,6 +291,7 @@
   "block.immersive_metallurgy.elite_blast_furnace": "冶金高炉",
   "block.immersive_metallurgy.hot_air_furnace": "燃气热风炉",
   "block.immersive_metallurgy.continuous_casting_machine": "连铸机",
+  "block.immersive_metallurgy.advanced_coke_oven": "高级炼焦炉机组",
 
   "desc.immersive_metallurgy.info.thread_ift": "%1$s IF/tick (x%2$d)",
   "desc.immersive_metallurgy.info.fuel_cost": "燃料消耗: %1$s",

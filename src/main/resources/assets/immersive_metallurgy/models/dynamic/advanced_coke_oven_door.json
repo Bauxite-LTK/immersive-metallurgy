@@ -1,0 +1,5 @@
+{
+  "flip_v": true,
+  "loader": "neoforge:obj",
+  "model": "immersive_metallurgy:models/block/metal_multiblock/advanced_coke_oven_door.obj"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "immersive_metallurgy:gas_fuel",
+  "burn_time": 20,
+  "input_gas": {
+    "amount": 100,
+    "fluid": "immersive_metallurgy:coke_oven_gas"
+  }
+
+}

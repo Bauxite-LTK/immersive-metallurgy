@@ -98,6 +98,14 @@ public class IMItems {
                             new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)
                     )
             );
+
+    public static final DeferredItem<Item> COKE_OVEN_GAS_BUCKET =
+            ITEMS.register("bucket/coke_oven_gas",
+                    () -> new BucketItem(
+                            IMFluids.COKE_OVEN_GAS.getSource(),
+                            new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)
+                    )
+            );
     
     
 

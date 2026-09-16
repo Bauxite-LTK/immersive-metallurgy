@@ -59,6 +59,7 @@ public class IMClient {
         registerBERenderNoContext(event, IMBlockEntities.SAP_COLLECTOR.get(), SapCollectorRender::new);
         registerBERenderNoContext(event, IMBlockEntities.CASTING_CHANNEL.get(), CastingChannelBlockEntityRender::new);
         registerBERenderNoContext(event, IMMultiblockLogic.CONTINUOUS_CASTING_MACHINE.masterBE(), ContinuousCastingMachineRenderer::new);
+        registerBERenderNoContext(event, IMMultiblockLogic.ADVANCED_COKE_OVEN.masterBE(), AdvancedCokeOvenRenderer::new);
 
         //registerBERenderNoContext(event, IMBlockEntities.ELECTRIC_CABLE.get(), ElectricCableSelectionRenderer::new);
     }
@@ -87,6 +88,7 @@ public class IMClient {
         FlotationCellRender.BLADE = new IMDynamicModel(FlotationCellRender.NAME);
         ThickenerRender.AGITATOR = new IMDynamicModel(ThickenerRender.NAME);
         ContinuousCastingMachineRenderer.METAL = new IMDynamicModel(ContinuousCastingMachineRenderer.NAME);
+        AdvancedCokeOvenRenderer.DOOR = new IMDynamicModel(AdvancedCokeOvenRenderer.DOOR_NAME);
 
     }
 
@@ -100,6 +102,7 @@ public class IMClient {
         event.register(IMMenuTypes.ELITE_BLAST_FURNACE.getType(), EliteBlastFurnaceScreen::new);
         event.register(IMMenuTypes.HOT_AIR_FURNACE.getType(), HotAirFurnaceScreen::new);
         event.register(IMMenuTypes.CONTINUOUS_CASTING_MACHINE.getType(), ContinuousCastingMachineScreen::new);
+        event.register(IMMenuTypes.ADVANCED_COKE_OVEN.getType(), AdvancedCokeOvenScreen::new);
     }
 
     @SubscribeEvent

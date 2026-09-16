@@ -1,4 +1,4 @@
-package net.bauxite_ltk.immersive_metallurgy.render;
+package net.bauxite_ltk.immersive_metallurgy.render.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

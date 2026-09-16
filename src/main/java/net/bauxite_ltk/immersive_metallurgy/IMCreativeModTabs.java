@@ -140,6 +140,7 @@ public class IMCreativeModTabs {
                 output.accept(IMItems.HOT_AIR_BUCKET);
                 output.accept(IMItems.WATER_GAS_BUCKET);
                 output.accept(IMItems.BLAST_FURNACE_GAS_BUCKET);
+                output.accept(IMItems.COKE_OVEN_GAS_BUCKET);
 
             }).build()
     );

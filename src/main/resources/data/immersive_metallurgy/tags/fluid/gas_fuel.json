@@ -2,6 +2,7 @@
   "values": [
     "immersive_metallurgy:water_gas",
     "immersive_metallurgy:blast_furnace_gas",
-    "immersivepetroleum:petroleum_gas"
+    "immersivepetroleum:petroleum_gas",
+    "immersivepetroleum:coke_oven_gas"
   ]
 }

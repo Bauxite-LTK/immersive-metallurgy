@@ -1,0 +1,13 @@
+{
+  "type": "immersive_metallurgy:hot_air_furnace",
+  "energy": 100,
+  "time": 10,
+  "result_fluid": {
+    "amount": 200,
+    "id": "immersive_metallurgy:hot_air"
+  },
+  "input_fluid": {
+    "amount": 50,
+    "fluid": "immersive_metallurgy:coke_oven_gas"
+  }
+}

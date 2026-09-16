@@ -43,6 +43,10 @@ public class IMRecipeSerializers {
         GasFuelRecipe.SERIALIZER = RECIPE_SERIALIZERS.register(
                 "gas_fuel", GasFuelRecipeSerializer::new
         );
+
+        AdvancedCokeOvenRecipe.SERIALIZER = RECIPE_SERIALIZERS.register(
+                "advanced_coke_oven", AdvancedCokeOvenRecipeSerializer::new
+        );
     }
 
     public static void init(IEventBus modEventBus){

@@ -9,6 +9,13 @@
     "immersive_metallurgy:thickener",
     "immersive_metallurgy:elite_blast_furnace",
     "immersive_metallurgy:hydrocyclone",
-    "immersive_metallurgy:continuous_casting_machine"
+    "immersive_metallurgy:continuous_casting_machine",
+    "immersive_metallurgy:advanced_coke_oven",
+    "immersive_metallurgy:pig_iron_block",
+    "immersive_metallurgy:advanced_coke_oven_bricks",
+    "immersive_metallurgy:electric_cable_lv",
+    "immersive_metallurgy:electric_cable_mv",
+    "immersive_metallurgy:casting_channel",
+    "immersive_metallurgy:sap_collector"
   ]
 }

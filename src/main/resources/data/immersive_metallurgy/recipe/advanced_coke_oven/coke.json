@@ -1,0 +1,24 @@
+{
+  "type": "immersive_metallurgy:advanced_coke_oven",
+  "time": 2560,
+  "result_oil": {
+    "amount": 4000,
+    "id": "immersiveengineering:creosote"
+  },
+  "result_gas": {
+    "amount": 4000,
+    "id": "immersive_metallurgy:coke_oven_gas"
+  },
+  "result_item": {
+    "count" : 8,
+    "basePredicate": {
+      "tag": "c:coal_coke"
+    }
+  },
+  "input_item": {
+    "basePredicate": {
+      "item": "minecraft:coal"
+    },
+    "count": 8
+  }
+}

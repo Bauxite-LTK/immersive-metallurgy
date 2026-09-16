@@ -46,6 +46,10 @@
   "block.immersive_metallurgy.fluid.blast_furnace_gas": "Blast Furnace Gas",
   "fluid.immersive_metallurgy.blast_furnace_gas": "Blast Furnace Gas",
 
+  "item.immersive_metallurgy.bucket.coke_oven_gas": "Coke Oven Gas Bucket",
+  "block.immersive_metallurgy.fluid.coke_oven_gas": "Coke Oven Gas",
+  "fluid.immersive_metallurgy.coke_oven_gas": "Coke Oven Gas",
+
   "item.immersive_metallurgy.bucket.mason_pine_sap": "Mason Pine Sap Bucket",
   "block.immersive_metallurgy.fluid.mason_pine_sap": "Mason Pine Sap",
   "fluid.immersive_metallurgy.mason_pine_sap": "Mason Pine Sap",
@@ -290,6 +294,7 @@
   "block.immersive_metallurgy.elite_blast_furnace": "Metallurgy Blast Furnace",
   "block.immersive_metallurgy.hot_air_furnace": "Gas Hot Air Furnace",
   "block.immersive_metallurgy.continuous_casting_machine": "Continuous Casting Machine",
+  "block.immersive_metallurgy.advanced_coke_oven": "Advanced Coke Oven Unit",
 
   "desc.immersive_metallurgy.info.thread_ift": "%1$s IF/tick (x%2$d)",
   "desc.immersive_metallurgy.info.fuel_cost": "Fuel Cost: %1$s",

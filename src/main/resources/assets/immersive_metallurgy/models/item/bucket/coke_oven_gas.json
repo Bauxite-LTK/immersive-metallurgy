@@ -1,0 +1,6 @@
+{
+  "loader": "neoforge:fluid_container",
+  "parent": "neoforge:item/bucket",
+  "fluid": "immersive_metallurgy:coke_oven_gas",
+  "flip_gas": true
+}

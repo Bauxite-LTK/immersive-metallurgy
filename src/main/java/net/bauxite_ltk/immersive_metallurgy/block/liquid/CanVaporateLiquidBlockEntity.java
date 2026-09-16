@@ -37,6 +37,10 @@ public class CanVaporateLiquidBlockEntity extends BlockEntity{
         return new CanVaporateLiquidBlockEntity(IMBlockEntities.BLAST_FURNACE_GAS.get(), pos, blockState);
     }
 
+    public static CanVaporateLiquidBlockEntity forCokeOvenGas(BlockPos pos, BlockState blockState){
+        return new CanVaporateLiquidBlockEntity(IMBlockEntities.COKE_OVEN_GAS.get(), pos, blockState);
+    }
+
 
     public void setVaporateProperties(int vaporateTicks){
         this.vaporateTicks = vaporateTicks;

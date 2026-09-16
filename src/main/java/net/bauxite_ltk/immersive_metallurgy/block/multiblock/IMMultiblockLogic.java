@@ -75,6 +75,13 @@ public class IMMultiblockLogic {
                     .redstone(s -> s.rsState, ContinuousCastingMachineLogic.REDSTONE_POS)
                     .build();
 
+    public static final MultiblockRegistration<AdvancedCokeOvenLogic.State> ADVANCED_COKE_OVEN =
+            metal(new AdvancedCokeOvenLogic(), "advanced_coke_oven")
+                    .structure(() -> IMMultiblocks.ADVANCED_COKE_OVEN)
+                    .redstoneAware()
+                    .gui(IMMenuTypes.ADVANCED_COKE_OVEN)
+                    .build();
+
     private static <S extends IMultiblockState>
     IMMultiblockBuilder<S> metal(IMultiblockLogic<S> logic, String name)
     {

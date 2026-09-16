@@ -51,6 +51,8 @@ public class IMFluidEvent {
         ItemBlockRenderTypes.setRenderLayer(IMFluids.WATER_GAS.getFlowing(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(IMFluids.BLAST_FURNACE_GAS.getSource(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(IMFluids.BLAST_FURNACE_GAS.getFlowing(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(IMFluids.COKE_OVEN_GAS.getSource(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(IMFluids.COKE_OVEN_GAS.getFlowing(), RenderType.translucent());
     }
 
 
@@ -99,6 +101,10 @@ public class IMFluidEvent {
         event.registerFluidType(
                 new FluidRendererExtension(0xFF4f3333, GAS_STILL, GAS_FLOW, null, null),
                 IMFluids.BLAST_FURNACE_GAS.getType());
+
+        event.registerFluidType(
+                new FluidRendererExtension(0xFF444333, GAS_STILL, GAS_FLOW, null, null),
+                IMFluids.COKE_OVEN_GAS.getType());
 
 
         event.registerFluidType(

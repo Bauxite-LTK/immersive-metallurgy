@@ -16,6 +16,7 @@ public class IMMultiblocks {
     public static IETemplateMultiblock ELITE_BLAST_FURNACE;
     public static IETemplateMultiblock HOT_AIR_FURNACE;
     public static IETemplateMultiblock CONTINUOUS_CASTING_MACHINE;
+    public static IETemplateMultiblock ADVANCED_COKE_OVEN;
 
 
     public static void init()
@@ -93,6 +94,7 @@ public class IMMultiblocks {
         ELITE_BLAST_FURNACE = register(new EliteBlastFurnaceMultiblock());
         HOT_AIR_FURNACE = register(new HotAirFurnaceMultiblock());
         CONTINUOUS_CASTING_MACHINE = register(new ContinuousCastingMachineMultiblock());
+        ADVANCED_COKE_OVEN = register(new AdvancedCokeOvenMultiblock());
     }
 
 

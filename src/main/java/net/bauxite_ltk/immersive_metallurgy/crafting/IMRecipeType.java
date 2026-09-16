@@ -22,6 +22,7 @@ public class IMRecipeType {
     public static final IERecipeTypes.TypeWithClass<HotAirFurnaceRecipe> HOT_AIR_FURNACE = register("hot_air_furnace", HotAirFurnaceRecipe.class);
     public static final IERecipeTypes.TypeWithClass<ContinuousCastingMachineRecipe> CONTINUOUS_CASTING_MACHINE = register("continuous_casting_machine", ContinuousCastingMachineRecipe.class);
     public static final IERecipeTypes.TypeWithClass<GasFuelRecipe> GAS_FUEL = register("gas_fuel", GasFuelRecipe.class);
+    public static final IERecipeTypes.TypeWithClass<AdvancedCokeOvenRecipe> ADVANCED_COKE_OVEN = register("advanced_coke_oven", AdvancedCokeOvenRecipe.class);
 
 
     private static <T extends Recipe<?>>

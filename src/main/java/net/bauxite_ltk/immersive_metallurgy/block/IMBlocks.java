@@ -45,6 +45,7 @@ public class IMBlocks {
     public static final DeferredBlock<LiquidBlock> HOT_AIR = registerNoItem("fluid/hot_air", () -> new CanVaporateLiquidBlock(IMFluids.HOT_AIR.getFlowing(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).noLootTable(), IMBlockEntities.HOT_AIR ,5));
     public static final DeferredBlock<LiquidBlock> WATER_GAS = registerNoItem("fluid/water_gas", () -> new CanVaporateLiquidBlock(IMFluids.WATER_GAS.getFlowing(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).noLootTable(), IMBlockEntities.WATER_GAS ,5));
     public static final DeferredBlock<LiquidBlock> BLAST_FURNACE_GAS = registerNoItem("fluid/blast_furnace_gas", () -> new CanVaporateLiquidBlock(IMFluids.BLAST_FURNACE_GAS.getFlowing(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).noLootTable(), IMBlockEntities.BLAST_FURNACE_GAS ,5));
+    public static final DeferredBlock<LiquidBlock> COKE_OVEN_GAS = registerNoItem("fluid/coke_oven_gas", () -> new CanVaporateLiquidBlock(IMFluids.COKE_OVEN_GAS.getFlowing(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).noLootTable(), IMBlockEntities.COKE_OVEN_GAS ,5));
 
 
     public static final DeferredBlock<LiquidBlock> MASON_PINE_SAP = registerNoItem("fluid/mason_pine_sap", () -> new LiquidBlock(IMFluids.MASON_PINE_SAP.getFlowing(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).noLootTable()));
