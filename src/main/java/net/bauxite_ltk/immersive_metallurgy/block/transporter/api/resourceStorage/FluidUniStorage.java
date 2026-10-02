@@ -6,11 +6,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.IFluidTank;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
-public class FluidUniStorage implements IUniStorage<FluidStack>, IFluidHandler, IUniHandler<FluidStack> {
+public class FluidUniStorage implements ICompactUniStorage<FluidStack, IFluidHandler>{
     FluidTank tank;
 
     public FluidUniStorage(int initialCapacity){
@@ -22,34 +21,33 @@ public class FluidUniStorage implements IUniStorage<FluidStack>, IFluidHandler, 
     }
 
     @Override
-    public int receiveResource(FluidStack fluidStack, boolean simulate) {
+    public int receiveInStorage(FluidStack fluidStack, boolean simulate) {
         return tank.fill(fluidStack, simulate? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
-    public int receiveResource(FluidStack fluidStack, int amount, boolean simulate) {
-        return tank.fill(fluidStack.copyWithAmount(amount), simulate? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE);
+    public IFluidHandler getCompactParent() {
+        return tank;
     }
 
     @Override
-    public FluidStack extractResource(FluidStack fluidStack, boolean simulate) {
-        return extractResource(fluidStack.getAmount(), simulate);
+    public FluidStack extractFromStorage(FluidStack fluidStack, boolean simulate) {
+        return extractFromStorage(fluidStack.getAmount(), simulate);
     }
 
-
     @Override
-    public FluidStack extractResource(int amount, boolean simulate) {
+    public FluidStack extractFromStorage(int amount, boolean simulate) {
         return tank.drain(amount, simulate? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
     public int getResourceAmount(int storageId) {
-        return getResourceAmount();
+        return getInStorageAmount();
     }
 
     @Override
     public int getCapacity(int storageId) {
-        return getCapacity();
+        return getStorageCapacity();
     }
 
     @Override
@@ -59,26 +57,34 @@ public class FluidUniStorage implements IUniStorage<FluidStack>, IFluidHandler, 
 
     @Override
     public FluidStack getResource(int storageId) {
-        return getResource();
+        return getResourceInStorage();
+    }
+
+    @Override
+    public CompoundTag toNBT(HolderLookup.Provider provider) {
+        return tank.writeToNBT(provider, new CompoundTag());
+    }
+
+    @Override
+    public void loadFromNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        tank.readFromNBT(provider, tag);
     }
 
 
     @Override
-    public int getResourceAmount() {
+    public int getInStorageAmount() {
         return tank.getFluidAmount();
     }
 
     @Override
-    public int getCapacity() {
+    public int getStorageCapacity() {
         return tank.getCapacity();
     }
 
     @Override
-    public FluidStack getResource() {
+    public FluidStack getResourceInStorage() {
         return tank.getFluid();
     }
-
-
 
     public int getTanks(){
         return 1;
@@ -88,35 +94,6 @@ public class FluidUniStorage implements IUniStorage<FluidStack>, IFluidHandler, 
         return tank.getFluid();
     }
 
-    @Override
-    public FluidStack getFluidInTank(int i) {
-        return tank.getFluid();
-    }
-
-    @Override
-    public int getTankCapacity(int i) {
-        return tank.getCapacity();
-    }
-
-    @Override
-    public boolean isFluidValid(int i, FluidStack fluidStack){
-        return tank.isFluidValid(fluidStack);
-    }
-
-    @Override
-    public int fill(FluidStack fluidStack, FluidAction fluidAction) {
-        return tank.fill(fluidStack, fluidAction);
-    }
-
-    @Override
-    public FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
-        return tank.drain(fluidStack,fluidAction);
-    }
-
-    @Override
-    public FluidStack drain(int i, FluidAction fluidAction) {
-        return tank.drain(i, fluidAction);
-    }
 
     public int setFluidAmount(Fluid fluid, int amount){
         int thisAmount = tank.getFluidAmount();

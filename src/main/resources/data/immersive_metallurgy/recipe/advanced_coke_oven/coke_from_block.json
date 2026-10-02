@@ -1,0 +1,24 @@
+{
+  "type": "immersive_metallurgy:advanced_coke_oven",
+  "time": 2880,
+  "result_oil": {
+    "amount": 4500,
+    "id": "immersiveengineering:creosote"
+  },
+  "result_gas": {
+    "amount": 4500,
+    "id": "immersive_metallurgy:coke_oven_gas"
+  },
+  "result_item": {
+    "count" : 1,
+    "basePredicate": {
+      "tag": "c:storage_blocks/coal_coke"
+    }
+  },
+  "input_item": {
+    "basePredicate": {
+      "item": "minecraft:coal_block"
+    },
+    "count": 1
+  }
+}

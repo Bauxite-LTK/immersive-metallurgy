@@ -1,0 +1,22 @@
+高级焦炉机组
+钢铁是怎样炼成的
+<&multiblock>
+冶金高炉是一种专门用来冶炼生铁的设备，适用于大批次地生产钢铁。<np>
+
+<&elite_blast_furnace0>
+§l高炉炉料§r
+冶金高炉从顶部接受§1炉料§r，炉体内部可存储四组§1炉料§r。<br>
+炉料是炼钢的原料，可由§1铁精矿饼§r与§1焦煤粉§r合成。<np>
+
+<&elite_blast_furnace1>
+§l热风预热§r
+炉体两侧需连续不断通入§1热空气§r加热，需要四台<link;immersive_metallurgy:hot_air_furnace;燃气热风炉;multiblock>同时满速工作才能达到并维持最高温度(1600°C)。<br>
+标准的炉料需要至少§c1500°C§r才能够冶炼。<np>
+
+<&elite_blast_furnace2>
+§l冶炼生铁§r
+炉料冶炼后生产§1熔融生铁§r，§3高炉煤气§r和矿渣<br>
+炉体前方底部输出§1熔融生铁§r，顶部输出§3高炉煤气§r，炉体后方底部输出矿渣<br>
+1x炉料 --(5t)--> 100mB §1熔融生铁§r
++ 300mB §3高炉煤气§r + 1x矿渣<br>
+§3高炉煤气§r是一种燃气，可作为<link;immersive_metallurgy:hot_air_furnace;燃气热风炉;multiblock>的燃料。

@@ -103,7 +103,7 @@ public class IMFluidEvent {
                 IMFluids.BLAST_FURNACE_GAS.getType());
 
         event.registerFluidType(
-                new FluidRendererExtension(0xFF444333, GAS_STILL, GAS_FLOW, null, null),
+                new FluidRendererExtension(0xFF899993, GAS_STILL, GAS_FLOW, null, null),
                 IMFluids.COKE_OVEN_GAS.getType());
 
 

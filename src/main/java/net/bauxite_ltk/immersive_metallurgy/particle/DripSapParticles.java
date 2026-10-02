@@ -2,17 +2,12 @@ package net.bauxite_ltk.immersive_metallurgy.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 public class DripSapParticles extends TextureSheetParticle {
 
@@ -126,10 +121,10 @@ public class DripSapParticles extends TextureSheetParticle {
 
 
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class ParticleProvider implements net.minecraft.client.particle.ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 
-        public Provider(SpriteSet sprites) {
+        public ParticleProvider(SpriteSet sprites) {
             this.sprites = sprites;
         }
 

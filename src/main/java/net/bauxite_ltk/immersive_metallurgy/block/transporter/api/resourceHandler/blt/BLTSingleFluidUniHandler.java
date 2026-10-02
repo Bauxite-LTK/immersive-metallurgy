@@ -16,7 +16,7 @@ public class BLTSingleFluidUniHandler extends FluidUniHandler implements IFluidH
     final Direction facing;
 
     public BLTSingleFluidUniHandler(@Nonnull FluidUniHandler fluidUniHandler, BlocklikeFluidTransporterBE instance, Direction facing) {
-        super(fluidUniHandler);
+        super(fluidUniHandler.getCompactParent());
         this.fluidUniHandler = fluidUniHandler;
         this.be = instance;
         this.facing = facing;
@@ -24,7 +24,7 @@ public class BLTSingleFluidUniHandler extends FluidUniHandler implements IFluidH
 
     @Override
     public int getTanks() {
-        return fluidUniHandler.getTanks();
+        return fluidUniHandler.getStoragesCount();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class BLTSingleFluidUniHandler extends FluidUniHandler implements IFluidH
 
     @Override
     public boolean isFluidValid(int i, @NotNull FluidStack fluidStack) {
-        return fluidUniHandler.isFluidValid(i, fluidStack);
+        return fluidUniHandler.getCompactParent().isFluidValid(i, fluidStack);
     }
 
 

@@ -92,7 +92,6 @@ public class CanSolidifyLiquidBlockEntity extends BlockEntity{
                 BlockState newState = solid.get().defaultBlockState();
                 level.setBlockAndUpdate(worldPosition, newState);
                 level.playSound(null,getBlockPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1,1);
-
             }
             else{
                 level.setBlockAndUpdate(getBlockPos(), Blocks.AIR.defaultBlockState());

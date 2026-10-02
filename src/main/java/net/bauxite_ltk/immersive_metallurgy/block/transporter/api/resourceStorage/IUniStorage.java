@@ -1,19 +1,19 @@
 package net.bauxite_ltk.immersive_metallurgy.block.transporter.api.resourceStorage;
 
 public interface IUniStorage<R> {
-    int receiveResource(R resource, boolean simulate);
+    int receiveInStorage(R resource, boolean simulate);
 
-    R extractResource(R resource, boolean simulate);
+    R extractFromStorage(R resource, boolean simulate);
 
-    R extractResource(int amount, boolean simulate);
+    R extractFromStorage(int amount, boolean simulate);
 
-    int getResourceAmount();
+    int getInStorageAmount();
 
-    int getCapacity();
+    int getStorageCapacity();
 
-    R getResource();
+    R getResourceInStorage();
 
     default boolean isEmpty(){
-        return getResourceAmount() == 0;
+        return getInStorageAmount() == 0;
     }
 }

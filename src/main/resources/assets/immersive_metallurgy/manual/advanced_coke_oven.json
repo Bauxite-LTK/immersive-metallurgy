@@ -1,0 +1,22 @@
+{
+  "multiblock": {
+    "type": "multiblock",
+    "name": "immersive_metallurgy:multiblocks/advanced_coke_oven"
+  },
+
+  "elite_blast_furnace0": {
+    "type": "item_display",
+    "items": [
+      "minecraft:coal",
+      "immersiveengineering:coal_coke"
+    ]
+  },
+
+  "elite_blast_furnace1": {
+    "type": "item_display",
+    "items": [
+      "immersive_metallurgy:bucket/coke_oven_gas",
+      "immersiveengineering:creosote_bucket"
+    ]
+  }
+}

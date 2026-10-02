@@ -67,7 +67,7 @@ public class CastingChannelBlockEntity extends BlocklikeFluidTransporterBE
 
     private void fluidLight(){
         int lightLevel = 0;
-        if(tank.getFluidInTank(0).is(IMTags.Fluids.TEMPERATURE_MOLTEN_FLUID)){
+        if(tank.getResource(0).is(IMTags.Fluids.TEMPERATURE_MOLTEN_FLUID)){
             lightLevel = 15;
         }
         level.setBlockAndUpdate(getBlockPos(),getState().setValue(CastingChannelBlock.LIGHT_LEVEL, lightLevel));

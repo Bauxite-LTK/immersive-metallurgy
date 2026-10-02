@@ -142,6 +142,8 @@ public class IMCreativeModTabs {
                 output.accept(IMItems.BLAST_FURNACE_GAS_BUCKET);
                 output.accept(IMItems.COKE_OVEN_GAS_BUCKET);
 
+                output.accept(IMBlocks.ELECTRIC_CABLE_HV.asItem());
+
             }).build()
     );
 

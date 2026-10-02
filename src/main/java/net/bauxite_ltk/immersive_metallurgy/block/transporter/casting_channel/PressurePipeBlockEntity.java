@@ -78,7 +78,7 @@ public abstract class PressurePipeBlockEntity extends IEBaseBlockEntity implemen
         tank.readFromNBT(provider, nbt.getCompound("tank"));
 
         byte oldConns = connections;
-        connections = nbt.getByte("connections");
+        connections = nbt.getByte("allConnections");
         if(level!=null&&level.isClientSide&&(connections!=oldConns))
         {
             BlockState state = level.getBlockState(worldPosition);
@@ -96,7 +96,7 @@ public abstract class PressurePipeBlockEntity extends IEBaseBlockEntity implemen
                 config[i] = 1;
         nbt.putIntArray("sideConfig", config);
         nbt.put("tank", tank.writeToNBT(provider, new CompoundTag()));
-        nbt.putByte("connections", connections);
+        nbt.putByte("allConnections", connections);
     }
 
 

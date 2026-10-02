@@ -65,7 +65,7 @@ public class CastingChannelCallbacks implements BlockCallback<CastingChannelCall
                 parts.add("center");
                 break;
             case 1:
-                //casting channel cannot connect down without horizontal connections
+                //casting channel cannot connect down without horizontal allConnections
                 //so we only have 2 cases: UP and Horizontal
                 if (key.hasActiveConnection(UP)){
                     parts.add("up");

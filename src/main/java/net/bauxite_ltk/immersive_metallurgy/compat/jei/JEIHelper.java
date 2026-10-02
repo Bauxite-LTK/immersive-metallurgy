@@ -53,7 +53,8 @@ public class JEIHelper implements IModPlugin
                 new EliteBlastFurnaceCategory(guiHelper),
                 new HotAirFurnaceCategory(guiHelper),
                 new ContinuousCastingMachineCategory(guiHelper),
-                new GasFuelCategory(guiHelper)
+                new GasFuelCategory(guiHelper),
+                new AdvancedCokeOvenCategory(guiHelper)
         );
 
         slotDrawable = guiHelper.getSlotDrawable();
@@ -70,6 +71,7 @@ public class JEIHelper implements IModPlugin
         registration.addRecipes(JEIRecipeTypes.HOT_AIR_FURNACE, getRecipes(HotAirFurnaceRecipe.RECIPES));
         registration.addRecipes(JEIRecipeTypes.CONTINUOUS_CASTING_MACHINE, getRecipes(ContinuousCastingMachineRecipe.RECIPES));
         registration.addRecipes(JEIRecipeTypes.GAS_FUEL, getRecipes(GasFuelRecipe.RECIPES));
+        registration.addRecipes(JEIRecipeTypes.ADVANCED_COKE_OVEN, getRecipes(AdvancedCokeOvenRecipe.RECIPES));
 
     }
 
@@ -103,6 +105,7 @@ public class JEIHelper implements IModPlugin
         registration.addRecipeCatalyst(IMMultiblockLogic.HOT_AIR_FURNACE.iconStack(), JEIRecipeTypes.HOT_AIR_FURNACE);
         registration.addRecipeCatalyst(IMMultiblockLogic.CONTINUOUS_CASTING_MACHINE.iconStack(), JEIRecipeTypes.CONTINUOUS_CASTING_MACHINE);
         registration.addRecipeCatalyst(IMMultiblockLogic.CONTINUOUS_CASTING_MACHINE.iconStack(), JEIRecipeTypes.GAS_FUEL);
+        registration.addRecipeCatalyst(IMMultiblockLogic.ADVANCED_COKE_OVEN.iconStack(), JEIRecipeTypes.ADVANCED_COKE_OVEN);
     }
 
     @Override
@@ -116,6 +119,8 @@ public class JEIHelper implements IModPlugin
         registration.addRecipeClickArea(HotAirFurnaceScreen.class, 53, 35, 15, 13, JEIRecipeTypes.HOT_AIR_FURNACE);
         registration.addRecipeClickArea(ContinuousCastingMachineScreen.class, 133, 13, 15, 13, JEIRecipeTypes.CONTINUOUS_CASTING_MACHINE);
         registration.addRecipeClickArea(ContinuousCastingMachineScreen.class, 116, 13, 12, 10, JEIRecipeTypes.GAS_FUEL);
-
+        for(int i = 0; i < AdvancedCokeOvenMenu.COKE_OVEN_THREAD_COUNT; i++) {
+            registration.addRecipeClickArea(AdvancedCokeOvenScreen.class, 21 + i*40, 30, 14, 17, JEIRecipeTypes.ADVANCED_COKE_OVEN);
+        }
     }
 }

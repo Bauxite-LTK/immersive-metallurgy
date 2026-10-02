@@ -5,42 +5,32 @@ import blusunrize.immersiveengineering.api.client.ieobj.IEOBJCallbacks;
 import net.bauxite_ltk.immersive_metallurgy.Config;
 import net.bauxite_ltk.immersive_metallurgy.ImmersiveMetallurgy;
 import net.bauxite_ltk.immersive_metallurgy.block.IMBlockEntities;
-import net.bauxite_ltk.immersive_metallurgy.block.liquid.CanSolidifyLiquidBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblockLogic;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.AttachmentCableCallbacks;
 import net.bauxite_ltk.immersive_metallurgy.callback.CastingChannelCallbacks;
 import net.bauxite_ltk.immersive_metallurgy.callback.ElectricCableCallbacks;
-import net.bauxite_ltk.immersive_metallurgy.fluid.FluidRendererExtension;
-import net.bauxite_ltk.immersive_metallurgy.fluid.IMFluids;
 import net.bauxite_ltk.immersive_metallurgy.gui.IMMenuTypes;
 import net.bauxite_ltk.immersive_metallurgy.gui.multiblock.*;
 import net.bauxite_ltk.immersive_metallurgy.particle.DripSapParticles;
 import net.bauxite_ltk.immersive_metallurgy.particle.IMParticleTypes;
 import net.bauxite_ltk.immersive_metallurgy.render.*;
 import net.bauxite_ltk.immersive_metallurgy.util.IMUtils;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = ImmersiveMetallurgy.MOD_ID, value = Dist.CLIENT)
 public class IMClient {
     public static void modConstruction(){
         IEOBJCallbacks.register(IMUtils.modRL("electric_cable"), ElectricCableCallbacks.INSTANCE);
+        IEOBJCallbacks.register(AttachmentCableCallbacks.CALLBACK_RL, AttachmentCableCallbacks.INSTANCE);
         IEOBJCallbacks.register(IMUtils.modRL("casting_channel"), CastingChannelCallbacks.INSTANCE);
         //IEOBJCallbacks.register(IMUtils.modRL("electric_cable_mv"), ElectricCableCallbacks.INSTANCE);
         ImmersiveMetallurgy.LOGGER.info("ImmersiveMetallurgy register callbacks");
@@ -109,7 +99,7 @@ public class IMClient {
     public static void registerProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(
                 IMParticleTypes.DRIPPING_SAP.get(),
-                DripSapParticles.Provider::new
+                DripSapParticles.ParticleProvider::new
         );
     }
 

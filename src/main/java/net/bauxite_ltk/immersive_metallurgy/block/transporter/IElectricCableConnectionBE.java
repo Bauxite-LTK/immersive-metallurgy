@@ -38,7 +38,7 @@ public interface IElectricCableConnectionBE {
     default void updateNode(){
         List<ConnectionInfo> connectionInfoList = new ArrayList<>(getConnectionInfoList());
         // int connectionByte = getConnectionByte();
-        // remove invalid connections
+        // remove invalid allConnections
         // TODO Is This Necessary?
         connectionInfoList.removeIf(info -> info.status.equals(ConnectionStatus.INVALID));
 
@@ -147,7 +147,7 @@ public interface IElectricCableConnectionBE {
 
 
     default void tryClaimNext(BlockFace rootFaceOfSubnet, BlockFace thisFace){
-        //byte connections = getConnectionByte();
+        //byte allConnections = getConnectionByte();
         List<BlockFaceConnection> connections = getAllConnectBlockFace(thisFace);
         // update nextFace
         getConnectionInfo(rootFaceOfSubnet, thisFace).setNext(null);

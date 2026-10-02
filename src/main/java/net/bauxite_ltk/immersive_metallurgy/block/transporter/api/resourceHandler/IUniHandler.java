@@ -1,10 +1,15 @@
 package net.bauxite_ltk.immersive_metallurgy.block.transporter.api.resourceHandler;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+
 public interface IUniHandler<R> {
 
     int receiveResource(R resource, boolean simulate);
 
-    int receiveResource(R resource, int amount, boolean simulate);
+    default int receiveResource(R resource, int index, boolean simulate){
+        return receiveResource(resource, simulate);
+    }
 
     R extractResource(R resource, boolean simulate);
 
@@ -28,5 +33,9 @@ public interface IUniHandler<R> {
         }
         return true;
     }
+
+    CompoundTag toNBT(HolderLookup.Provider provider);
+
+    void loadFromNBT(CompoundTag tag ,HolderLookup.Provider provider);
 
 }

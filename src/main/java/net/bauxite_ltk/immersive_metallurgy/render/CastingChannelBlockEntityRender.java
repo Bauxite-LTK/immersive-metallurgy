@@ -17,7 +17,7 @@ public class CastingChannelBlockEntityRender implements BlockEntityRenderer<Cast
         poseStack.pushPose();
         if (!fluidStack.isEmpty())
         {
-            final float fillPercent = (float) fluidStack.getAmount() / castingChannelBlockEntity.tank.getCapacity();
+            final float fillPercent = (float) fluidStack.getAmount() / castingChannelBlockEntity.tank.getStorageCapacity();
 
             if(castingChannelBlockEntity.isConnectTo(Direction.UP)){
                 Direction to = castingChannelBlockEntity.getUniqueHorizontalDirection();

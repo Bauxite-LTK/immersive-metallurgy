@@ -69,13 +69,32 @@ public class ElectricCableCallbacks implements BlockCallback<ElectricCableCallba
         return new IEProperties.IEObjState(IEProperties.VisibilityList.show(parts), new Transformation(rotationMatrix.toMatrix4f()));
     }
 
-    /** HOLY FUCK THIS
-     * It seems that the Renderer will check if this key has changed then decide to update model
-     * if we only have *physicalConnectionsInfo*, even the content has changed, the Renderer will not detect this change
-     * I did a lot of tries to solve but all in vain, finally I try to add a Hash Code of content, and then it works magically.
-     * Maybe only *Explicit Changes* in Key will trigger to update model.
-     * Except this method, I haven't found another plan to trigger to update model yet.
-     **/
+    /* HOLY FUCK THIS
+      It seems that the Renderer will check if this key has changed then decide to update model
+      if we only have *physicalConnectionsInfo*, even the content has changed, the Renderer will not detect this change
+      I did a lot of tries to solve but all in vain, finally I try to add a Hash Code of content, and then it works magically.
+      Maybe only *Explicit Changes* in Key will trigger to update model.
+      Except this method, I haven't found another plan to trigger an update model yet.
+     */
+
+    /**
+     *  ========================
+     *  Write on 2026/9/18 0:02
+     *  ========================
+     *  I just found why the Renderer seems to track the change of key.
+     *  It's all because of {@link blusunrize.immersiveengineering.client.models.obj.GeneralIEOBJModel#modelCache}.
+     *  It works like:
+     *  Every time when the game tries to render a BakedModel, it will execute the "getQuad" of the BakedModel to get faces to render.
+     *  And according to the implementation of GeneralIEOBJModel, which is the BakedModel of our xxx.obj.ie,
+     *  It will first create a new key using our callback's {@link #extractKey} Method.
+     *  That key presents the current state. Our Model will access the Cache with that key.
+     *  If the Cache is not Hit, then it will generate a new SpecificIEOBJModel using our {@link #getIEOBJState} Method.
+     *  That's what I expected to happen.
+     *  But if we only use a [Reference of the physicalConnectionsInfo] as key,
+     *  it will never change even though its content changes.
+     *  So the Cache will always hit, corresponding to the initial state of our Model. So the model will never update.
+     *  Adding the hashcode makes the key be able to respond changes of the content. Then everything works fine.
+     */
     public record Key(
             ElectricCableBlockEntity.PhysicalConnectionsInfo physicalConnectionsInfo,
             int infoContentCache
@@ -84,7 +103,7 @@ public class ElectricCableCallbacks implements BlockCallback<ElectricCableCallba
 //        int numActiveConnections()
 //        {
 //            int count = 0;
-//            for(CastingChannelBlockEntity.ConnectionStyle c : connections.values())
+//            for(CastingChannelBlockEntity.ConnectionStyle c : allConnections.values())
 //                if(c!= CastingChannelBlockEntity.ConnectionStyle.NO_CONNECTION)
 //                    count++;
 //            return count;
@@ -92,7 +111,7 @@ public class ElectricCableCallbacks implements BlockCallback<ElectricCableCallba
 
 //        public boolean hasActiveConnection(Direction side)
 //        {
-//            return connections.get(side)!= CastingChannelBlockEntity.ConnectionStyle.NO_CONNECTION;
+//            return allConnections.get(side)!= CastingChannelBlockEntity.ConnectionStyle.NO_CONNECTION;
 //        }
 
 //        public boolean any(Direction... sides)

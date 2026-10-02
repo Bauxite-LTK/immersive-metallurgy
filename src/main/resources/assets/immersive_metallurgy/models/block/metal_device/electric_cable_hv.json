@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/block",
+  "callbacks": "immersive_metallurgy:attachment_cable",
+  "layers": [
+    "cutout"
+  ],
+  "loader": "immersiveengineering:ie_obj",
+  "model": "immersive_metallurgy:models/block/metal_device/electric_cable_hv.obj.ie",
+  "textures": {
+    "particle": "immersive_metallurgy:block/metal_device/electric_cable_hv"
+  }
+}

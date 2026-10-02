@@ -55,7 +55,7 @@ public class ElectricCableBlockEntity extends IEBaseBlockEntity implements IElec
     protected int transferLimit;
     Item instanceCableItem;
 
-    //protected byte connections = 0;
+    //protected byte allConnections = 0;
     //protected byte backCornerConnectionByte = 0;
 
     //protected Direction mainDir;
@@ -374,7 +374,7 @@ public class ElectricCableBlockEntity extends IEBaseBlockEntity implements IElec
                         }
 
                         if(otherElectricCable.isConnectionSaturated(attachmentDir) && !otherElectricCable.isStraightConnectedTo(attachmentDir, otherConnectionDir)){
-                            IMUtils.LOGGER.info("updateStraightConnection exit: other cable has max connections of 2, also it is not connect to this cable in advance");
+                            IMUtils.LOGGER.info("updateStraightConnection exit: other cable has max allConnections of 2, also it is not connect to this cable in advance");
                             continue;
                         }
 
@@ -388,9 +388,9 @@ public class ElectricCableBlockEntity extends IEBaseBlockEntity implements IElec
             }
         }
         //ImmersiveMetallurgy.LOGGER.info("Pos:{}", getBlockPos());
-        //ImmersiveMetallurgy.LOGGER.info("connections:{}", connections);
+        //ImmersiveMetallurgy.LOGGER.info("allConnections:{}", allConnections);
         //ImmersiveMetallurgy.LOGGER.info("mask:{}", mask);
-        //ImmersiveMetallurgy.LOGGER.info("wasConnected:{}", (connections & (byte) mask));
+        //ImmersiveMetallurgy.LOGGER.info("wasConnected:{}", (allConnections & (byte) mask));
         return update;
     }
 
@@ -440,9 +440,9 @@ public class ElectricCableBlockEntity extends IEBaseBlockEntity implements IElec
             }
         }
         //ImmersiveMetallurgy.LOGGER.info("Pos:{}", getBlockPos());
-        //ImmersiveMetallurgy.LOGGER.info("connections:{}", connections);
+        //ImmersiveMetallurgy.LOGGER.info("allConnections:{}", allConnections);
         //ImmersiveMetallurgy.LOGGER.info("mask:{}", mask);
-        //ImmersiveMetallurgy.LOGGER.info("wasConnected:{}", (connections & (byte) mask));
+        //ImmersiveMetallurgy.LOGGER.info("wasConnected:{}", (allConnections & (byte) mask));
         return update;
     }
 
@@ -541,7 +541,7 @@ public class ElectricCableBlockEntity extends IEBaseBlockEntity implements IElec
 
 
             if(otherCable.isConnectionSaturated(otherAttachmentDir) && !otherCable.isBackCornerConnectedTo(otherAttachmentDir, otherConnectionDir)){
-                IMUtils.LOGGER.info("exit: other cable has max connections of 2, also it is not connect to this cable in advance");
+                IMUtils.LOGGER.info("exit: other cable has max allConnections of 2, also it is not connect to this cable in advance");
                 return false;
             }
 

@@ -301,6 +301,7 @@
   "desc.immersive_metallurgy.info.fuel_amount": "Fuel: %1$s",
   "desc.immersive_metallurgy.info.fuel_info": "Fuel: %1$s/%2$s",
   "desc.immersive_metallurgy.info.ift": "%1$s IF/tick",
+  "desc.immersive_metallurgy.info.secs": "%1$s s",
   "desc.immersive_metallurgy.info.temperature": "%1$s°C",
 
   "immersive_metallurgy.configuration.title": "Immersive Metallurgy Configs",

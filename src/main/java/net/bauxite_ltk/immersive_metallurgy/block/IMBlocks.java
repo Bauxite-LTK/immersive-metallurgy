@@ -6,6 +6,7 @@ import blusunrize.immersiveengineering.common.register.IEBlocks;
 import net.bauxite_ltk.immersive_metallurgy.block.liquid.CanSolidifyLiquidBlock;
 import net.bauxite_ltk.immersive_metallurgy.block.liquid.CanVaporateLiquidBlock;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.ElectricCableBlock;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlock;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.casting_channel.CastingChannelBlock;
 import net.bauxite_ltk.immersive_metallurgy.block.sapCollector.SapCollectorBlock;
 import net.bauxite_ltk.immersive_metallurgy.block.wood.*;
@@ -133,6 +134,7 @@ public class IMBlocks {
 
     public static final DeferredBlock<ElectricCableBlock> ELECTRIC_CABLE_LV = registerBlockIM("electric_cable_lv", "electric_cable_lv.idle", () -> ElectricCableBlock.forLv(METAL_PROPERTIES_DYNAMIC.get()));
     public static final DeferredBlock<ElectricCableBlock> ELECTRIC_CABLE_MV = registerBlockIM("electric_cable_mv","electric_cable_mv.idle", () -> ElectricCableBlock.forMv(METAL_PROPERTIES_DYNAMIC.get()));
+    public static final DeferredBlock<RFCableBlock> ELECTRIC_CABLE_HV = registerBlockIM("electric_cable_hv","electric_cable_hv.idle", () -> RFCableBlock.forHv(METAL_PROPERTIES_DYNAMIC.get()));
     public static final DeferredBlock<CastingChannelBlock> CASTING_CHANNEL = registerBlockIM("casting_channel","casting_channel.idle", () -> new CastingChannelBlock(METAL_PROPERTIES_DYNAMIC.get()));
 
 

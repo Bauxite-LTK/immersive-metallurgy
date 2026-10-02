@@ -42,7 +42,7 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
 
     public int forceAllocatedExecuteCount = 0;
 
-    //Record six faces' connections
+    //Record six faces' allConnections
     protected byte connections = 0;
 
     List<TransportationData> tdList = new ArrayList<>(6);
@@ -65,7 +65,7 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
         super(blockEntityType,pos,blockState);
         tank = storage;
         for(Direction f : DirectionUtils.VALUES)
-            sidedHandlers.put(f, new BLTSingleFluidUniHandler(FluidUniHandler.cast(tank),this, f));
+            sidedHandlers.put(f, new BLTSingleFluidUniHandler(FluidUniHandler.cast(tank.getCompactParent()),this, f));
     }
 
     public static BlocklikeFluidTransporterBE create(
@@ -120,12 +120,12 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
                 invalidateHandler(curDir);
             }
         }
-        int oldTankAmount = tank.getResourceAmount();
-        tank.readFromNBT(provider, nbt.getCompound("tank"));
+        int oldTankAmount = tank.getInStorageAmount();
+        tank.loadFromNBT(nbt.getCompound("tank"), provider);
 
         byte oldConns = connections;
-        connections = nbt.getByte("connections");
-        if(level!=null&&level.isClientSide&&(connections!=oldConns || tank.getResourceAmount()!= oldTankAmount))
+        connections = nbt.getByte("allConnections");
+        if(level!=null&&level.isClientSide&&(connections!=oldConns || tank.getInStorageAmount()!= oldTankAmount))
         {
             BlockState state = level.getBlockState(worldPosition);
             level.sendBlockUpdated(worldPosition, state, state, 3);
@@ -141,8 +141,8 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
             if(sideConfig.getBoolean(Direction.from3DDataValue(i)))
                 config[i] = 1;
         nbt.putIntArray("sideConfig", config);
-        nbt.put("tank", tank.writeToNBT(provider, new CompoundTag()));
-        nbt.putByte("connections", connections);
+        nbt.put("tank", tank.toNBT(provider));
+        nbt.putByte("allConnections", connections);
     }
 
 
@@ -150,17 +150,17 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
     @Override
     public void allocateResourceLocal(BlockFace sourceKey, boolean tryEmptySelf) {
         // Get current Fluid in self
-        Fluid fluid = tank.getResource().getFluid();
-        if(tank.getResourceAmount() == 0) return;
+        Fluid fluid = tank.getResourceInStorage().getFluid();
+        if(tank.getInStorageAmount() == 0) return;
 
         // Get total fluid amount in pipe to allocate
         // Only count fluid in pipe because we do not want to extract and reallocate fluid from consumer.
-        int totalAmount = tank.getResourceAmount();
+        int totalAmount = tank.getInStorageAmount();
         for(Direction dir : getDataBySourceKey(sourceKey).outputs){
             BlocklikeFluidTransporterBE fluidTransporterBE = getNeighborInstance(dir);
             if(fluidTransporterBE!=null){
-                if(fluidTransporterBE.tank.getResource().getFluid().isSame(fluid)){
-                    totalAmount += fluidTransporterBE.tank.getResourceAmount();
+                if(fluidTransporterBE.tank.getResourceInStorage().getFluid().isSame(fluid)){
+                    totalAmount += fluidTransporterBE.tank.getInStorageAmount();
                 }
             }
         }
@@ -169,12 +169,12 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
         // Work to get the capacity limit of every local neighbor container, including self.
         // It is for the next part's allocate algorithm:
         getDataBySourceKey(sourceKey).clearLocalAllocateCache();
-        getDataBySourceKey(sourceKey).addToLocalAllocateCacheSorted(this.tank, Math.min(this.tank.getCapacity(), totalAmount), tryEmptySelf);
+        getDataBySourceKey(sourceKey).addToLocalAllocateCacheSorted(this.tank.getCompactParent(), Math.min(this.tank.getStorageCapacity(), totalAmount), tryEmptySelf);
         for(Direction nextDir : getDataBySourceKey(sourceKey).outputs){
             IFluidHandler handler = neighbors.get(nextDir).getCapability();
             int capacity = 0;
             if(handler instanceof BLTSingleFluidUniHandler && handler.getFluidInTank(0).getFluid().isSame(fluid)){
-                capacity = Math.min(this.tank.getCapacity(), totalAmount);
+                capacity = Math.min(this.tank.getStorageCapacity(), totalAmount);
                 getDataBySourceKey(sourceKey).addToLocalAllocateCacheSorted(handler, capacity, tryEmptySelf);
             }
             else if (handler != null && handler.getTanks() > 0){
@@ -228,7 +228,7 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
     @Override
     public int forceAllocateResource(BlockFace sourceKey, FluidStack resource, int amount, boolean simulate) {
         int last = amount;
-        last -= tank.receiveResource(resource,last,simulate);
+        last -= tank.receiveResource(resource.copyWithAmount(last),simulate);
         try {
             for (Direction output : getDataBySourceKey(sourceKey).outputs) {
                 IFluidHandler handler = neighbors.get(output).getCapability();
@@ -247,7 +247,7 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
     int lastHeightLevel = 0;
 
     public void checkHeightLevelForSendingUpdate(){
-        int currentHeightLevel = getFluidHeightLevel(tank.getResourceAmount(), tank.getCapacity());
+        int currentHeightLevel = getFluidHeightLevel(tank.getInStorageAmount(), tank.getStorageCapacity());
         if(currentHeightLevel != lastHeightLevel){
             lastHeightLevel = currentHeightLevel;
             if (level != null && !level.isClientSide) {
@@ -279,7 +279,7 @@ public class BlocklikeFluidTransporterBE extends IEBaseBlockEntity implements IB
         IFluidHandler handler = sidedHandlers.get(side);
         if(handler==null)
         {
-            sidedHandlers.put(side, new BLTSingleFluidUniHandler(FluidUniHandler.cast(tank),this, side));
+            sidedHandlers.put(side, new BLTSingleFluidUniHandler(FluidUniHandler.cast(tank.getCompactParent()),this, side));
             invalidateCapabilities();
         }
     }

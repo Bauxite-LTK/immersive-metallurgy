@@ -24,7 +24,7 @@ public class IMMultiblocks {
 //        //Add general matcher predicates
 //        //Basic blockstate matcher
 //        BlockMatcher.addPredicate((expected, found, world, pos) -> expected==found? BlockMatcher.Result.allow(1): BlockMatcher.Result.deny(1));
-//        //FourWayBlock (fences etc): allow additional connections
+//        //FourWayBlock (fences etc): allow additional allConnections
 //        List<Property<Boolean>> sideProperties = ImmutableList.of(
 //                CrossCollisionBlock.NORTH, CrossCollisionBlock.EAST, CrossCollisionBlock.SOUTH, CrossCollisionBlock.WEST
 //        );
