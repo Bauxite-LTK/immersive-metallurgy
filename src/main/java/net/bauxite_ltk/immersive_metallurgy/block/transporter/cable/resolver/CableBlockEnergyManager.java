@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
@@ -161,7 +160,7 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
             BlockFace otherBlockFace = connection.other(thisNode).data();
             AtomicReference<RFCableBlockEntity.NeighborStatus> status = new AtomicReference<>();
             RFCableBlockEntity otherCable = parentBE.getOther(otherBlockFace.pos(), status::set);
-            if(status.get().equals(RFCableBlockEntity.NeighborStatus.NOT_CABLE)){
+            if(status.get().equals(RFCableBlockEntity.NeighborStatus.NOT_SAME_CABLE)){
                 if(connection instanceof TerminalCableConnection){
                     if(parentBE.getNeighborEnergyHandler(conDir) != null)
                         continue;
@@ -242,6 +241,10 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
         GlobalRFCableConnectionData.removeVertex(parentBE.getLevel(), face);
         nodeMap.remove(attach);
         checkAllConnections();
+    }
+
+    public int getNodeCount(){
+        return nodeMap.size();
     }
 
 

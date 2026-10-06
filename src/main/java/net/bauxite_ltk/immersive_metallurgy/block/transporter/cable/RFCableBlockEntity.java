@@ -30,6 +30,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -173,12 +175,12 @@ public class RFCableBlockEntity extends IEBaseBlockEntity
             return null;
         }
         BlockEntity blockEntity = serverLevel.getBlockEntity(position);
-        if(blockEntity instanceof RFCableBlockEntity rfCable){
+        if(blockEntity instanceof RFCableBlockEntity rfCable && isSameCable(rfCable)){
             result.accept(NeighborStatus.ACTIVE);
             return rfCable;
         }
         else {
-            result.accept(NeighborStatus.NOT_CABLE);
+            result.accept(NeighborStatus.NOT_SAME_CABLE);
             return null;
         }
     }
@@ -198,7 +200,8 @@ public class RFCableBlockEntity extends IEBaseBlockEntity
 
         changed |= updateSideCapability(changedDir);
 
-        if(SafeChunkUtils.getSafeBE(level, changedPos) instanceof RFCableBlockEntity cable){
+        if(SafeChunkUtils.getSafeBE(level, changedPos) instanceof RFCableBlockEntity cable
+                && isSameCable(cable)){
             changed |= rfBlockManager.proactivelyStraightConnect(cable.rfBlockManager, changedDir, level.getGameTime());
             if(changed){
                 cable.getRFBlockManager().updateConnectedFaces();
@@ -241,7 +244,9 @@ public class RFCableBlockEntity extends IEBaseBlockEntity
         for(int i = 0; i < 2; i++){
             Direction attBlockDir = associateDirs.get(i);
             Direction conBlockDir = associateDirs.get(1-i);
-            if(SafeChunkUtils.getSafeBE(level, changedPos) instanceof RFCableBlockEntity cable){
+            if(SafeChunkUtils.getSafeBE(level, changedPos) instanceof RFCableBlockEntity cable
+                    && isSameCable(cable)
+            ){
                 changed |= rfBlockManager.proactivelyBackCornerConnect(cable.rfBlockManager, attBlockDir, conBlockDir, level.getGameTime());
                 if(changed){
                     cable.getRFBlockManager().updateConnectedFaces();
@@ -255,6 +260,17 @@ public class RFCableBlockEntity extends IEBaseBlockEntity
             sendUpdateToGlobalData = true;
             markSyncToClient();
         }
+    }
+
+    public void removeAndDropItems(Player player, Level level){
+        player.addItem(new ItemStack(cableItem, rfBlockManager.getNodeCount()));
+        level.playSound(null, worldPosition, SoundEvents.COPPER_BREAK, SoundSource.BLOCKS, 1.0F + level.getRandom().nextFloat(), level.getRandom().nextFloat() + 0.7F + 0.3F);
+        level.setBlockAndUpdate(getBlockPos(), Blocks.AIR.defaultBlockState());
+    }
+
+    private boolean isSameCable(RFCableBlockEntity cable){
+        if(cable == null) return false;
+        return cable.cableItem.equals(this.cableItem);
     }
 
     protected void markSyncToClient(){
@@ -326,7 +342,7 @@ public class RFCableBlockEntity extends IEBaseBlockEntity
     public enum NeighborStatus {
         ACTIVE(0),
         UNLOAD(1),
-        NOT_CABLE(2);
+        NOT_SAME_CABLE(2);
         final int code;
         NeighborStatus(int code){
             this.code = code;

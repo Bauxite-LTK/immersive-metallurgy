@@ -28,6 +28,7 @@ public class IMBlockLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(IMBlocks.ELECTRIC_CABLE_LV.get());
         dropSelf(IMBlocks.ELECTRIC_CABLE_MV.get());
+        dropSelf(IMBlocks.ELECTRIC_CABLE_HV.get());
         dropSelf(IMBlocks.MASON_PINE_LOG.get());
         dropOther(IMBlocks.MASON_PINE_LOG_LIVE.get(), IMBlocks.MASON_PINE_LOG.get());
         dropOther(IMBlocks.MASON_PINE_LOG_SAPPY.get(), IMBlocks.MASON_PINE_LOG.get());

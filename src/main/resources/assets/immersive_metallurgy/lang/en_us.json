@@ -245,6 +245,7 @@
 
   "block.immersive_metallurgy.electric_cable_lv": "LV Electric Cable",
   "block.immersive_metallurgy.electric_cable_mv": "MV Electric Cable",
+  "block.immersive_metallurgy.electric_cable_hv": "HV Electric Cable",
   "block.immersive_metallurgy.sap_collector": "Sap Collector",
   "block.immersive_metallurgy.casting_channel": "Casting Channel",
 
@@ -270,8 +271,9 @@
   "block.immersive_metallurgy.pig_iron_block": "Pig Iron Block",
   "block.immersive_metallurgy.advanced_coke_oven_bricks": "Advanced Coke Oven Bricks",
 
-  "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t ",
-  "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t ",
+  "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t per Terminal",
+  "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t per Terminal",
+  "tooltip.immersive_metallurgy.electric_cable_hv.idle": "§a▼§r 65536 RF/t per Terminal",
   "tooltip.immersive_metallurgy.casting_channel.idle": "§b●§r Trace Input",
   "tooltip.immersive_metallurgy.ingot_pig_iron.idle": "Can process into Steel in §dArc Furnace§r",
   "tooltip.immersive_metallurgy.blast_furnace_iron_pellet.idle": "§c▲§r 1500°C",

@@ -245,6 +245,7 @@
 
   "block.immersive_metallurgy.electric_cable_lv": "低压电缆",
   "block.immersive_metallurgy.electric_cable_mv": "中压电缆",
+  "block.immersive_metallurgy.electric_cable_hv": "高压电缆",
   "block.immersive_metallurgy.sap_collector": "树脂采集器",
   "block.immersive_metallurgy.casting_channel": "浇铸道",
 
@@ -271,8 +272,9 @@
   "block.immersive_metallurgy.advanced_coke_oven_bricks": "强化焦炉砖",
 
 
-  "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t ",
-  "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t ",
+  "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t 每个端子",
+  "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t 每个端子",
+  "tooltip.immersive_metallurgy.electric_cable_hv.idle": "§a▼§r 65536 RF/t 每个端子",
   "tooltip.immersive_metallurgy.casting_channel.idle": "§b●§r 速率跟随输入",
   "tooltip.immersive_metallurgy.ingot_pig_iron.idle": "可在§d电弧炉§r中加工成钢锭",
   "tooltip.immersive_metallurgy.blast_furnace_iron_pellet.idle": "§c▲§r 1500°C",

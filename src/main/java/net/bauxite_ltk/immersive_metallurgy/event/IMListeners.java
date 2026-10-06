@@ -1,9 +1,11 @@
 package net.bauxite_ltk.immersive_metallurgy.event;
 
 import blusunrize.immersiveengineering.api.utils.SafeChunkUtils;
+import blusunrize.immersiveengineering.common.register.IEItems;
 import it.unimi.dsi.fastutil.longs.*;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.ElectricCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.ICableBEImplements;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalRFCableConnectionData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,12 +14,17 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
@@ -202,6 +209,27 @@ public class IMListeners {
         }
 
 
+    }
+
+    @SubscribeEvent
+    public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        Player player = event.getEntity();
+
+        if (event.getHand() != InteractionHand.MAIN_HAND) return;
+
+        if (!event.getItemStack().is(IEItems.Tools.WIRECUTTER.asItem())) return;
+
+        if (!player.isSecondaryUseActive()) return;
+
+        if (event.getLevel().isClientSide()) return;
+
+        BlockEntity be = SafeChunkUtils.getSafeBE(event.getLevel(), event.getPos());
+        if(!(be instanceof RFCableBlockEntity cable)) return;
+
+        cable.removeAndDropItems(player, event.getLevel());
+
+        event.setCanceled(true);
+        event.setCancellationResult(InteractionResult.SUCCESS);           // 控制客户端挥手/动画
     }
 
 

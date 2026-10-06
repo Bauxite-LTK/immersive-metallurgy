@@ -2,6 +2,7 @@
   "values": [
     "immersive_metallurgy:electric_cable_lv",
     "immersive_metallurgy:electric_cable_mv",
+    "immersive_metallurgy:electric_cable_hv",
     "immersive_metallurgy:casting_channel",
     "immersive_metallurgy:ball_mill",
     "immersive_metallurgy:hydrocyclone",

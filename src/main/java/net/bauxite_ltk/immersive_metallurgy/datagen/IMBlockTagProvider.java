@@ -25,6 +25,7 @@ public class IMBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(IMBlocks.ELECTRIC_CABLE_LV.get())
                 .add(IMBlocks.ELECTRIC_CABLE_MV.get())
+                .add(IMBlocks.ELECTRIC_CABLE_HV.get())
                 .add(IMBlocks.CASTING_CHANNEL.get());
 
         this.tag(BlockTags.LOGS_THAT_BURN)

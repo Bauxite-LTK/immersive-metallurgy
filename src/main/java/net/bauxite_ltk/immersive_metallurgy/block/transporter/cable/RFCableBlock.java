@@ -2,17 +2,17 @@ package net.bauxite_ltk.immersive_metallurgy.block.transporter.cable;
 
 import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.api.tool.IElectricEquipment;
+import blusunrize.immersiveengineering.client.fx.IEParticleType;
 import blusunrize.immersiveengineering.common.blocks.IEEntityBlock;
 import blusunrize.immersiveengineering.common.util.IEDamageSources;
 import net.bauxite_ltk.immersive_metallurgy.block.IMBlockEntities;
 
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.blockface.BlockFace;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalRFCableConnectionData;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ColorParticleOption;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,8 +28,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -39,7 +44,7 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
     public final int transferLimit;
 
     public RFCableBlock(Supplier<BlockEntityType<RFCableBlockEntity>> tileType, Properties blockProps, int transferLimit) {
-        super(tileType, blockProps.sound(SoundType.COPPER));
+        super(tileType, blockProps.sound(SoundType.COPPER).strength(0.5f,2));
         this.transferLimit = transferLimit;
     }
 
@@ -80,23 +85,39 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
             }
         }
     }
-
+    static final int ELECTROCUTE_INTERNAL_TICKS = 5;
+    int electrocuteTicks = ELECTROCUTE_INTERNAL_TICKS;
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         super.entityInside(state, level, pos, entity);
+        if(level instanceof ClientLevel) return;
+        if(electrocuteTicks > 0){
+            electrocuteTicks--;
+            return;
+        }
         int extract = GlobalRFCableConnectionData.tryElectrocute(level, pos, transferLimit);
         if(extract > 0 && entity instanceof LivingEntity){
-            entity.hurt(IEDamageSources.causeWireDamage(level, extract/256f, new IElectricEquipment.ElectricSource(2)), extract/256f);
-            level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.BLOCKS, 1.5f, 1);
+            float damage = extract/256f;
+            float voltageLevel = extract/1024f;
+            float soundVolume = extract > 2048? 1.5f: 1.5f*((extract-512)/2048f);
             if(level instanceof ServerLevel serverLevel){
-                serverLevel.sendParticles(
-                        new DustParticleOptions(new Vector3f(1,1,0), 1.0F),   // ★ ARGB 颜色 + 大小
-                        entity.getX(),entity.getY(),entity.getZ(),
-                        10,
-                        0.3, 0.3, 0.3,
-                        0.0);
+                if(extract > 2048){
+                    serverLevel.sendParticles(
+                            ParticleTypes.FLASH,
+                            entity.getX(),entity.getY(),entity.getZ(),
+                            2,
+                            0.3, 0.3, 0.3,
+                            0.0);
+                }
+                if(extract > 1024){
+                    entity.hurt(IEDamageSources.causeWireDamage(level, damage, new IElectricEquipment.ElectricSource(voltageLevel)), damage);
+
+                    level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.BLOCKS, soundVolume, 1);
+                }
+
             }
         }
+        electrocuteTicks = ELECTROCUTE_INTERNAL_TICKS;
     }
 
     @Override
@@ -114,5 +135,16 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
         }
         super.onRemove(state, world, pos, newState, isMoving);
 
+    }
+
+    @Override
+    protected @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> drops = new ArrayList<>(super.getDrops(state, params));
+        BlockEntity be = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if(be instanceof RFCableBlockEntity cableBlockEntity){
+            int nodeCount = cableBlockEntity.getRFBlockManager().getNodeCount();
+            drops.add(new ItemStack(cableBlockEntity.cableItem, nodeCount-1));
+        }
+        return drops;
     }
 }
