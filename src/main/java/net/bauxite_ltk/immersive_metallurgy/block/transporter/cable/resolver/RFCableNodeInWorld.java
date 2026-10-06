@@ -1,25 +1,24 @@
 package net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.resolver;
 
 import com.google.common.base.Predicate;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.api.resourceStorage.EnergyUniStorage;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.blockface.BlockFace;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.FrontCornerCableConnection;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.ICableConnection;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.node.CableNode;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.resolver.handler.CableHandler;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.resolver.handler.CableEnergyStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RFCableNodeInWorld extends CableNode{
-    final CableHandler<Integer, IEnergyStorage> energyStorage;
+    final CableEnergyStorage energyStorage;
     final CableBlockEnergyManager manager;
 
-    protected RFCableNodeInWorld(BlockFace blockFace, CableBlockEnergyManager manager, CableHandler<Integer, IEnergyStorage> energyStorage) {
+    protected RFCableNodeInWorld(BlockFace blockFace, CableBlockEnergyManager manager, CableEnergyStorage energyStorage) {
         super(blockFace);
         this.energyStorage = energyStorage;
         this.manager = manager;
@@ -47,12 +46,16 @@ public class RFCableNodeInWorld extends CableNode{
         return true;
     }
 
+    public void setSidePermission(Direction con, boolean permit){
+        sidePermissionController.changePermission(con, permit);
+        if(!permit) tryDisconnectOfDir(con);
+    }
+
     /**
      * @param direction the direction of connection to be removed
-     * @return the other-side node of the connection to be removed
      */
-    public List<INodeIdentifyData<BlockFace>> tryDisconnectOfDir(Direction direction){
-        return tryDisconnect(c -> {
+    public void tryDisconnectOfDir(Direction direction){
+        tryDisconnect(c -> {
             assert c != null;
             return c.relativeDirection(this).equals(direction);
         });
@@ -60,9 +63,8 @@ public class RFCableNodeInWorld extends CableNode{
 
     /**
      * @param removeCondition the predicate for removal
-     * @return the other-side node of the connection to be removed
      */
-    public List<INodeIdentifyData<BlockFace>> tryDisconnect(Predicate<ICableConnection> removeCondition){
+    public void tryDisconnect(Predicate<ICableConnection> removeCondition){
         List<Integer> removeList = new ArrayList<>();
         List<INodeIdentifyData<BlockFace>> returnDataList = new ArrayList<>();
         for(int i = 0; i < connectionController.list().size(); i++){
@@ -75,7 +77,6 @@ public class RFCableNodeInWorld extends CableNode{
         for(Integer index : removeList){
             connectionController.list().remove(index.intValue());
         }
-        return returnDataList;
     }
 
 //    public List<ICableConnection> checkInvalidConnections(){

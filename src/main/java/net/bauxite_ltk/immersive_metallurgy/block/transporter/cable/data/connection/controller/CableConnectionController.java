@@ -2,8 +2,7 @@ package net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connec
 
 import com.google.common.base.Preconditions;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.blockface.BlockFace;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.ICableConnection;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.StraightCableConnection;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -60,11 +59,14 @@ public class CableConnectionController implements IConnectionController<ICableCo
             CompoundTag connectionTag = connectionListTag.getCompound(i);
             String type = connectionTag.getString("type");
 
-            // recreate allConnections according to its type.
-            ICableConnection connection = null;
-            if (type.equals(StraightCableConnection.TYPE)) {
-                connection = StraightCableConnection.BUILDER.fromNBT(connectionTag);
-            }
+            //rebuild allConnections according to its type.
+            ICableConnection connection = switch (type) {
+                case StraightCableConnection.TYPE -> StraightCableConnection.BUILDER.fromNBT(connectionTag);
+                case FrontCornerCableConnection.TYPE -> FrontCornerCableConnection.BUILDER.fromNBT(connectionTag);
+                case BackCornerCableConnection.TYPE -> BackCornerCableConnection.BUILDER.fromNBT(connectionTag);
+                case TerminalCableConnection.TYPE -> TerminalCableConnection.BUILDER.fromNBT(connectionTag);
+                default -> null;
+            };
 
             Preconditions.checkNotNull(connection);
             connectionList.add(connection);

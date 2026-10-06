@@ -6,7 +6,7 @@ import net.bauxite_ltk.immersive_metallurgy.block.IMBlocks;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblockBuilder;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblockLogic;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblocks;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalCableConnectionData;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalRFCableConnectionData;
 import net.bauxite_ltk.immersive_metallurgy.crafting.IMRecipeSerializers;
 import net.bauxite_ltk.immersive_metallurgy.crafting.IMRecipeType;
 import net.bauxite_ltk.immersive_metallurgy.event.IMClient;
@@ -106,7 +106,7 @@ public class ImmersiveMetallurgy {
         LOGGER.info("HELLO from server starting");
 
         MinecraftServer world = event.getServer();
-        var result =  GlobalCableConnectionData.ofGlobal(world);
-        GlobalCableConnectionData.setInstance(result);
+        var result =  GlobalRFCableConnectionData.ofGlobal(world);
+        GlobalRFCableConnectionData.setInstance(result);
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.blockface.BlockFace;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.ICableConnection;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.INodeConnection;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.TerminalCableConnection;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.controller.CableConnectionController;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.controller.SidePermissionController;
 import net.minecraft.core.Direction;
@@ -25,7 +26,7 @@ public class CableNode implements INode {
 
 
 
-    protected CableNode(BlockFace blockFace){
+    public CableNode(BlockFace blockFace){
         this(blockFace, new CableConnectionController(), new SidePermissionController(blockFace));
     }
 
@@ -67,30 +68,27 @@ public class CableNode implements INode {
         return true;
     }
 
+
     public boolean isPermittedDirection(Direction d){
         return sidePermissionController.isPermitted(d);
     }
 
 
-    public List<BlockFace> getAllConnected(){
+    public List<BlockFace> getAllConnectedCables(){
         List<BlockFace> list = new ArrayList<>();
         for(ICableConnection c : connectionController.list()){
-            if(c.from().equals(this.getIdentifyData()))
-                list.add(c.to().data());
-            else if(c.to().equals(this.getIdentifyData())){
-                list.add(c.from().data());
-            }
+            if(c instanceof TerminalCableConnection t && t.isDummy()) continue;
+            list.add(c.other(this).data());
         }
         return list;
     }
 
-    public List<ICableConnection> getConnectionsTo(Direction direction){
-        List<ICableConnection> connections = new ArrayList<>();
+    public ICableConnection getConnectionsTo(Direction direction){
         for(var c : connectionController.list()){
             if(c.relativeDirection(this).equals(direction))
-                connections.add(c);
+                return c;
         }
-        return connections;
+        return null;
     }
 
     @Override

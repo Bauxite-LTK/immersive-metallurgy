@@ -1,18 +1,19 @@
 package net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.resolver;
 
-import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.api.resourceStorage.EnergyUniStorage;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.CableConnectionKey;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.blockface.BlockFace;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.ICableConnection;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.StraightCableConnection;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.resolver.handler.CableHandler;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.connection.*;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalRFCableConnectionData;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.node.CableNode;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.node.DummyCableNode;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.resolver.handler.CableEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
@@ -21,39 +22,70 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer>{
     Map<Direction, RFCableNodeInWorld> nodeMap = new EnumMap<>(Direction.class);
     RFCableBlockEntity parentBE;
     Map<BlockFace, Integer> connectFaces = new Object2IntArrayMap<>();
+    EnumSet<Direction> hasEnergyStorageDirections = EnumSet.noneOf(Direction.class);
+    final int transferLimit;
 
     public static final Direction[] DIRECTIONS = Direction.values();
 
 
-    public CableBlockEnergyManager(RFCableBlockEntity be){
+    public CableBlockEnergyManager(RFCableBlockEntity be, int transferLimit){
         this.parentBE = be;
+        this.transferLimit = transferLimit;
     }
 
     private RFCableNodeInWorld createNode(Direction att){
         BlockPos pos = parentBE.getBlockPos();
         BlockFace face = new BlockFace(pos, att);
-        CableHandler<Integer, IEnergyStorage> handlerWrapper = new CableHandler<>(
-                new EnergyUniStorage(0), this, face
-        );
+        CableEnergyStorage handlerWrapper = new CableEnergyStorage(this, face);
         return new RFCableNodeInWorld(face,this, handlerWrapper);
     }
 
     public boolean addNode(Direction att){
         if(nodeMap.get(att)!=null) return false;
         nodeMap.put(att, this.createNode(att));
+        GlobalRFCableConnectionData.addOrUpdateVertexes(parentBE.getLevel(), nodeMap.get(att).blockFace(), List.of());
         return true;
     }
 
-    public boolean proactivelyStraightConnect(CableBlockEnergyManager otherManager, Direction otherDir, long gameTime){
+    public IEnergyStorage getSideCapabilityForTerminal(Direction att){
+        if(nodeMap.get(att) == null || !hasEnergyStorageDirections.contains(att)) return null;
+        return nodeMap.get(att).energyStorage;
+    }
+
+    public boolean updateSideCapability(BlockPos thisPos, Direction att, IEnergyStorage energyStorage, long gameTime){
+        boolean changed = false;
+        RFCableNodeInWorld selfNode = nodeMap.get(att);
+        if(selfNode == null) return false;
+        if(energyStorage == null || !selfNode.isPermittedDirection(att)) {
+            if(hasEnergyStorageDirections.contains(att)){
+                hasEnergyStorageDirections.remove(att);
+                GlobalRFCableConnectionData.updateVertexEnergyStorage(parentBE.getLevel(), selfNode.blockFace(), null);
+                return true;
+            }
+            return false;
+        }
+        CableNode dummyNode = new DummyCableNode(new BlockFace(thisPos.relative(att), att.getOpposite()));
+        changed = selfNode.tryConnect(dummyNode, TerminalCableConnection.BUILDER, gameTime);
+        if(changed){
+            hasEnergyStorageDirections.add(att);
+            GlobalRFCableConnectionData.updateVertexEnergyStorage(parentBE.getLevel(), selfNode.blockFace(), energyStorage);
+        }
+        return changed;
+    }
+
+    public boolean proactivelyStraightConnect(CableBlockEnergyManager otherManager, Direction conDir, long gameTime){
         boolean changed = false;
         for(Direction direction : DIRECTIONS){
-            if(otherDir.equals(direction) || otherDir.equals(direction.getOpposite())) continue;
+            if(conDir.equals(direction.getOpposite())) continue;
+            if(conDir.equals(direction)){
+                changed |= proactivelyTerminalConnect(otherManager, conDir, gameTime);
+                continue;
+            }
             RFCableNodeInWorld selfNode = nodeMap.get(direction);
             if(selfNode == null) continue;
             RFCableNodeInWorld otherNode = otherManager.nodeMap.get(direction);
@@ -63,50 +95,100 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
         return changed;
     }
 
-    public boolean checkConnectionsTo(Direction direction){
+    public boolean proactivelyTerminalConnect(CableBlockEnergyManager otherManager, Direction conDir, long gameTime){
+        boolean changed = false;
+        RFCableNodeInWorld selfNode = nodeMap.get(conDir);
+        if(selfNode == null) return false;
+        RFCableNodeInWorld otherNode = otherManager.nodeMap.get(conDir.getOpposite());
+        if(otherNode == null) return false;
+        changed = selfNode.tryConnect(otherNode, TerminalCableConnection.BUILDER, gameTime);
+        return changed;
+    }
+
+    public boolean proactivelyBackCornerConnect(CableBlockEnergyManager otherManager, Direction attDir, Direction conDir, long gameTime){
+        boolean changed = false;
+        RFCableNodeInWorld selfNode = nodeMap.get(attDir);
+        if(selfNode == null) return false;
+        RFCableNodeInWorld otherNode = otherManager.nodeMap.get(conDir.getOpposite());
+        if(otherNode == null) return false;
+        changed = selfNode.tryConnect(otherNode, BackCornerCableConnection.BUILDER, gameTime);
+        return changed;
+    }
+
+    public boolean addNodeAndFrontConnect(Direction att, long gameTime){
+        if(!addNode(att)) return false;
+        var thisNode = nodeMap.get(att);
+        for(Direction otherAtt : DIRECTIONS){
+            if(otherAtt == att || otherAtt == att.getOpposite()) continue;
+            if(nodeMap.get(otherAtt) == null) continue;
+            var otherNode = nodeMap.get(otherAtt);
+            thisNode.tryConnect(otherNode, FrontCornerCableConnection.BUILDER, gameTime);
+        }
+        return true;
+    }
+
+    public void updateObstacle(Direction att, Direction con, long gameTime){
+        if(nodeMap.get(att) == null) return;
+        var thisNode = nodeMap.get(att);
+        boolean isPermitted = thisNode.isPermittedDirection(con);
+        thisNode.setSidePermission(con, !isPermitted);
+        if(!isPermitted){
+            for(Direction otherAtt : DIRECTIONS){
+                if(otherAtt == att || otherAtt == att.getOpposite()) continue;
+                if(nodeMap.get(otherAtt) == null) continue;
+                var otherNode = nodeMap.get(otherAtt);
+                thisNode.tryConnect(otherNode, FrontCornerCableConnection.BUILDER, gameTime);
+            }
+        }
+    }
+
+    public boolean checkAllConnections(){
         boolean changed = false;
         for(Direction att : DIRECTIONS){
-            RFCableNodeInWorld node = nodeMap.get(att);
-            if(node==null) continue;
-            List<ICableConnection> connectionsInvolved = node.getConnectionsTo(direction);
+            changed |= checkConnectionsTo(att);
+        }
+        return changed;
+    }
 
-            for(var connection : connectionsInvolved){
-                BlockFace otherBlockFace = connection.other(node).data();
-                AtomicReference<RFCableBlockEntity.NeighborStatus> status = new AtomicReference<>();
-                RFCableBlockEntity otherCable = parentBE.getOther(otherBlockFace.pos(), status::set);
-                if(status.get().equals(RFCableBlockEntity.NeighborStatus.MISSING)){
-                    node.confirmDisconnect(connection);
+    public boolean checkConnectionsTo(Direction conDir){
+        boolean changed = false;
+        for(Direction att : DIRECTIONS){
+            RFCableNodeInWorld thisNode = nodeMap.get(att);
+            if(thisNode==null) continue;
+            ICableConnection connection = thisNode.getConnectionsTo(conDir);
+            if(connection == null) continue;
+
+            BlockFace otherBlockFace = connection.other(thisNode).data();
+            AtomicReference<RFCableBlockEntity.NeighborStatus> status = new AtomicReference<>();
+            RFCableBlockEntity otherCable = parentBE.getOther(otherBlockFace.pos(), status::set);
+            if(status.get().equals(RFCableBlockEntity.NeighborStatus.NOT_CABLE)){
+                if(connection instanceof TerminalCableConnection){
+                    if(parentBE.getNeighborEnergyHandler(conDir) != null)
+                        continue;
+                }
+                thisNode.confirmDisconnect(connection);
+                GlobalRFCableConnectionData.removeVertex(parentBE.getLevel(), otherBlockFace);
+                changed = true;
+
+            }
+            else if(status.get().equals(RFCableBlockEntity.NeighborStatus.ACTIVE)){
+                if(!otherCable.getRFBlockManager().hasConnection(connection, otherBlockFace.attach())){
+                    thisNode.confirmDisconnect(connection);
+                    GlobalRFCableConnectionData.removeConnection(parentBE.getLevel(), thisNode.blockFace(), otherBlockFace);
                     changed = true;
                 }
-                else if(status.get().equals(RFCableBlockEntity.NeighborStatus.ACTIVE)){
-                    if(!otherCable.getRFBlockManager().hasConnection(connection, otherBlockFace.attach())){
-                        node.confirmDisconnect(connection);
-                        changed = true;
-                    }
-                }
-
-                //TODO should deal with Unload situation?
             }
+
         }
         return changed;
     }
 
     public boolean hasConnection(ICableConnection connection, Direction attach) {
         RFCableNodeInWorld node = nodeMap.get(attach);
+        if(node == null) return false;
         return node.hasConnection(connection);
     }
 
-
-
-
-
-
-//    public void removeInvalidConnections(){
-//        for(Direction direction : Direction.values()){
-//            RFCableNodeInWorld node = nodeMap.get(direction);
-//            node.checkInvalidConnections().forEach(node::confirmDisconnect);
-//        }
-//    }
 
 
 
@@ -119,7 +201,9 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
             for(var bf : connectedBlockFaces){
                 connectFaces.put(bf, att.get3DDataValue());
             }
+            //GlobalCableConnectionData.addOrUpdateVertexes(connectedBlockFaces);
         }
+
     }
 
     public static int MAX_ITERATE = 2048;
@@ -135,17 +219,17 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
         for(int i = 0; i < MAX_ITERATE && close.size() < MAX_SEARCH && !open.isEmpty(); i++){
             BlockFace face = open.poll();
             if (!close.add(face)) continue;
-            if (!center.equals(face.pos())) {
-                out.add(face);
-                continue;
-            }
+
+            out.add(face);
+            if (!center.equals(face.pos())) continue;
+
             RFCableNodeInWorld node = nodeMap.get(face.attach());
-            if(node == null) continue;
+            assert node != null;
+            //if(node == null) continue;
             passedAttachments.add(face.attach());
-            for (BlockFace next : node.getAllConnected()) {
-                if (!close.contains(next))
-                    open.add(next);
-            }
+            List<BlockFace> allNeighbors = node.getAllConnectedCables();
+            open.addAll(allNeighbors);
+            GlobalRFCableConnectionData.addOrUpdateVertexes(parentBE.getLevel(), face, allNeighbors);
         }
         return out;
     }
@@ -153,14 +237,17 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
 
 
 
-    public void removeConnection(Direction attach){
-        //TODO remove allConnections of a removed node
+    public void removeNode(Direction attach){
+        BlockFace face = nodeMap.get(attach).blockFace();
+        GlobalRFCableConnectionData.removeVertex(parentBE.getLevel(), face);
+        nodeMap.remove(attach);
+        checkAllConnections();
     }
 
 
     @Override
-    public int handleResourceInput(Integer resource, BlockFace inputFace, boolean simulate) {
-        return 0;
+    public int handleResourceInput(Integer resource, BlockFace inputCableFace, boolean simulate) {
+        return GlobalRFCableConnectionData.allocateEnergy(parentBE.getLevel(), inputCableFace, Math.min(resource, transferLimit), simulate);
     }
 
     @Override
@@ -202,11 +289,15 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
             nodes.add(nodeElement);
         }
         main.put("node_list", nodes);
+
+        List<Integer> hasESDir3dValueArray = hasEnergyStorageDirections.stream().map(Direction::get3DDataValue).toList();
+        main.putIntArray("has_energy_storage_directions", hasESDir3dValueArray);
         return main;
     }
 
     @Override
     public void loadFromNBT(CompoundTag main, HolderLookup.Provider provider) {
+        nodeMap.clear();
         var nodes = main.getList("node_list", Tag.TAG_COMPOUND);
         for(var tag : nodes){
             CompoundTag nodeTag = (CompoundTag)tag;
@@ -214,6 +305,14 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
             var node = nodeMap.computeIfAbsent(att, this::createNode);
             node.loadFromNBT(nodeTag.getCompound("node"), provider);
         }
+
+        hasEnergyStorageDirections.clear();
+        int[] hasESDir3dValueArray = main.getIntArray("has_energy_storage_directions");
+        for(int dir3dValue : hasESDir3dValueArray){
+            Direction dir = Direction.from3DDataValue(dir3dValue);
+            hasEnergyStorageDirections.add(dir);
+        }
+
     }
 
     public static RFCableNodeInWorld getRFCableNodeInWorld(BlockFace blockFace, Level level){

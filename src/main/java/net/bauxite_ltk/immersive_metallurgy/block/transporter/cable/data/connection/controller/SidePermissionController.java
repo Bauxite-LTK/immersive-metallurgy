@@ -21,7 +21,7 @@ public class SidePermissionController {
         for(Direction d : Direction.values()){
             if(d.equals(blockFace.attach().getOpposite()))
                 sidePermissionList.put(d, false);
-            sidePermissionList.put(d, true);
+            else sidePermissionList.put(d, true);
         }
     }
 
@@ -37,7 +37,8 @@ public class SidePermissionController {
         CompoundTag tag = new CompoundTag();
         byte a = 0;
         for(Direction d : Direction.values()){
-            a += (byte) (1 << d.get3DDataValue());
+            if(isPermitted(d))
+                a += (byte) (1 << d.get3DDataValue());
         }
         tag.putByte("data_byte", a);
         return tag;

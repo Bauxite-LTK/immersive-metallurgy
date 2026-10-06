@@ -50,12 +50,18 @@ public class AttachmentCableCallbacks implements BlockCallback<CableConnectionKe
             boolean isExist = key.nodes().contains(att);
             var nodeConnections = key.allConnections().get(att);
             var nodeObstacles = key.allObstacles().get(att);
-            if(isExist) parts.add("center_" + att.getName());
-            if(nodeConnections!=null){
+            if(isExist){
+                if(nodeConnections == null || (nodeConnections.size()<=1 && !nodeConnections.contains(att))){
+                    parts.add(String.format("terminal_%s", att.getName()));
+                }
+                else parts.add("center_" + att.getName());
+            }
+
+            if(nodeConnections != null){
                 for(Direction con : nodeConnections){
                     if(nodeConnections.contains(con)) {
                         if(att.equals(con))
-                            parts.add(String.format("terminal_%s_%s", att.getName(), con.getName()));
+                            parts.add(String.format("terminal_%s", att.getName()));
                         else
                             parts.add(String.format("connection_%s_%s", att.getName(), con.getName()));
                     }
@@ -64,7 +70,11 @@ public class AttachmentCableCallbacks implements BlockCallback<CableConnectionKe
             if(nodeObstacles!=null){
                 for(Direction con : nodeObstacles){
                     if(nodeObstacles.contains(con)) {
-                        parts.add(String.format("obstacle_%s_%s", att.getName(), con.getName()));
+                        if(att.equals(con))
+                            parts.add(String.format("obs_terminal_%s", att.getName()));
+                        else
+                            parts.add(String.format("obstacle_%s_%s", att.getName(), con.getName()));
+
                     }
                 }
             }

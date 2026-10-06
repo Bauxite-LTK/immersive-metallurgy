@@ -3,6 +3,7 @@ package net.bauxite_ltk.immersive_metallurgy.block;
 
 import net.bauxite_ltk.immersive_metallurgy.ImmersiveMetallurgy;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.ElectricCableBlockEntity;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.casting_channel.CastingChannelBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.sapCollector.SapCollectorBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.util.IMUtils;
@@ -24,6 +25,7 @@ public class BlockCapabilityRegistration {
     public static void registerBlockCapabilities(RegisterCapabilitiesEvent event){
         ElectricCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_LV));
         ElectricCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_MV));
+        RFCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_HV));
         SapCollectorBlockEntity.registerCapabilities(forType(event,IMBlockEntities.SAP_COLLECTOR));
         CastingChannelBlockEntity.registerCapabilities(forType(event,IMBlockEntities.CASTING_CHANNEL));
         ImmersiveMetallurgy.LOGGER.info("BlockCapabilityRegistration: Called registerBlockCapabilities");

@@ -4,10 +4,11 @@ import blusunrize.immersiveengineering.api.utils.SafeChunkUtils;
 import it.unimi.dsi.fastutil.longs.*;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.ElectricCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.ICableBEImplements;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlockEntity;
-import net.bauxite_ltk.immersive_metallurgy.util.IMUtils;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalRFCableConnectionData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -92,7 +93,7 @@ public class IMListeners {
     private static final int MAX_PER_TICK = 64;
 
     @SubscribeEvent
-    public void onServerTick(ServerTickEvent.Post event){
+    public void serverTickPendNotifications(ServerTickEvent.Post event){
         if(!PENDING_STRAIGHT.isEmpty()){
             MinecraftServer server = event.getServer();
             var byDim = PENDING_STRAIGHT.entrySet().iterator();
@@ -101,27 +102,29 @@ public class IMListeners {
 
             while (byDim.hasNext()) {
                 var dimEntry = byDim.next();
-
                 ServerLevel level = server.getLevel(dimEntry.getKey());
+                Long2LongMap pending = dimEntry.getValue();
                 if (level == null) { byDim.remove(); continue; }
 
-                Long2LongMap pending = dimEntry.getValue();
+                if (pending.isEmpty()) { byDim.remove(); continue; }
 
-                var it = pending.long2LongEntrySet().iterator();
+                Long2LongMap batch = new Long2LongOpenHashMap(pending);
+                pending.clear();
 
-                int budget = MAX_PER_TICK;
-                while(2*budget < pending.size()) budget*=2;
+                int budget = Math.min(batch.size(), MAX_PER_TICK);
 
+                var it = batch.long2LongEntrySet().iterator();
                 while (it.hasNext() && budget-- > 0) {
-                    var entry = it.next();
-                    BlockPos toNotify = BlockPos.of(entry.getLongKey());
-                    BlockPos origin = BlockPos.of(entry.getLongValue());
-                    it.remove();
-                    notifyCableStraight(level, toNotify, origin);
+                    var e = it.next();
+                    notifyCableStraight(level, BlockPos.of(e.getLongKey()), BlockPos.of(e.getLongValue()));
                 }
 
-                if (pending.isEmpty())
-                    byDim.remove();
+                while (it.hasNext()) {
+                    var e = it.next();
+                    pending.put(e.getLongKey(), e.getLongValue());
+                }
+
+                if (pending.isEmpty()) byDim.remove();
             }
         }
         if(!PENDING_BACK_CORNER.isEmpty()){
@@ -130,24 +133,28 @@ public class IMListeners {
             while (byDim.hasNext()) {
                 var dimEntry = byDim.next();
                 ServerLevel level = server.getLevel(dimEntry.getKey());
+                Long2LongMap pending = dimEntry.getValue();
                 if (level == null) { byDim.remove(); continue; }
 
-                Long2LongMap pending = dimEntry.getValue();
+                if (pending.isEmpty()) { byDim.remove(); continue; }
 
-                var it = pending.long2LongEntrySet().iterator();
+                Long2LongMap batch = new Long2LongOpenHashMap(pending);
+                pending.clear();
 
-                int budget = MAX_PER_TICK;
-                while(2*budget < pending.size()) budget*=2;
+                int budget = Math.min(batch.size(), MAX_PER_TICK);
 
+                var it = batch.long2LongEntrySet().iterator();
                 while (it.hasNext() && budget-- > 0) {
-                    var entry = it.next();
-                    BlockPos toNotify = BlockPos.of(entry.getLongKey());
-                    BlockPos origin = BlockPos.of(entry.getLongValue());
-                    it.remove();
-                    notifyCableBackCorner(level, toNotify, origin);
+                    var e = it.next();
+                    notifyCableBackCorner(level, BlockPos.of(e.getLongKey()), BlockPos.of(e.getLongValue()));
                 }
-                if (pending.isEmpty())
-                    byDim.remove();
+
+                while (it.hasNext()) {
+                    var e = it.next();
+                    pending.put(e.getLongKey(), e.getLongValue());
+                }
+
+                if (pending.isEmpty()) byDim.remove();
             }
         }
     }
@@ -168,6 +175,33 @@ public class IMListeners {
         BlockEntity be = chunk.getBlockEntity(notifyPos);
         if(be instanceof ICableBEImplements cable)
             cable.notifiedBackCorner(originChangedPos);
+    }
+
+
+    int moduleTick = 20;
+    @SubscribeEvent
+    public void serverTickParticles(ServerTickEvent.Post event){
+        if(moduleTick > 0){
+            moduleTick--;
+            return;
+        }
+        moduleTick = 20;
+        MinecraftServer server = event.getServer();
+        for(ServerLevel level : server.getAllLevels()){
+            var levelCC = GlobalRFCableConnectionData.instance.connectedComponentsByLevel.get(level.dimension());
+            if(levelCC == null) continue;
+            for(var cc : levelCC){
+                for(var bf : cc.getAllBlockFaces()){
+                    level.sendParticles(
+                            ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, cc.hashCode()|0xFF000000),
+                            bf.pos().getX()+0.5, bf.pos().getY()+0.5, bf.pos().getZ()+0.5,
+                            1,0,0,0,0.1);
+                }
+
+            }
+        }
+
+
     }
 
 
