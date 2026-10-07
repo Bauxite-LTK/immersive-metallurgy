@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "immersiveengineering:wirecoil_steel"
+    },
+    {
+      "item": "immersiveengineering:connector_hv"
+    },
+    {
+      "item": "immersiveengineering:slag_glass"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "id": "immersive_metallurgy:electric_cable_hv"
+  }
+}
