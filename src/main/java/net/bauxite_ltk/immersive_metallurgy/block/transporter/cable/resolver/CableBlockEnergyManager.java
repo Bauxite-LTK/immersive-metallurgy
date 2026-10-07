@@ -250,7 +250,7 @@ public class CableBlockEnergyManager implements ICableNodeInBlockManager<Integer
 
     @Override
     public int handleResourceInput(Integer resource, BlockFace inputCableFace, boolean simulate) {
-        return GlobalRFCableConnectionData.allocateEnergy(parentBE.getLevel(), inputCableFace, Math.min(resource, transferLimit), simulate);
+        return GlobalRFCableConnectionData.allocateEnergy(parentBE.getLevel(), inputCableFace, Math.min(resource, transferLimit), transferLimit, simulate);
     }
 
     @Override

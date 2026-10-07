@@ -29,13 +29,13 @@ public class ElectricCableBlock extends IEEntityBlock<ElectricCableBlockEntity> 
         );
     }
 
-    public static ElectricCableBlock forLv(Properties blockProps){
-        return new ElectricCableBlock(IMBlockEntities.ELECTRIC_CABLE_LV, blockProps);
-    }
-
-    public static ElectricCableBlock forMv(Properties blockProps){
-        return new ElectricCableBlock(IMBlockEntities.ELECTRIC_CABLE_MV, blockProps);
-    }
+//    public static ElectricCableBlock forLv(Properties blockProps){
+//        return new ElectricCableBlock(IMBlockEntities.ELECTRIC_CABLE_LV, blockProps);
+//    }
+//
+//    public static ElectricCableBlock forMv(Properties blockProps){
+//        return new ElectricCableBlock(IMBlockEntities.ELECTRIC_CABLE_MV, blockProps);
+//    }
 
 
     @Override

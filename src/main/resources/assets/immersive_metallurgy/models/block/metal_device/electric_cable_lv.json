@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/block",
-  "callbacks": "immersive_metallurgy:electric_cable",
+  "callbacks": "immersive_metallurgy:attachment_cable",
   "layers": [
     "cutout"
   ],

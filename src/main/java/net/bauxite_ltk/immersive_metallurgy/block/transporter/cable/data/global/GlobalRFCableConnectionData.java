@@ -60,14 +60,14 @@ public class GlobalRFCableConnectionData extends SavedData {
         }
     }
 
-    public static int allocateEnergy(Level level, BlockFace inputCableFace, int energy, boolean simulate){
+    public static int allocateEnergy(Level level, BlockFace inputCableFace, int energy, int limit, boolean simulate){
         if(level == null) return 0;
         BlockFace opposingEnergyStorageFace = inputCableFace.opposite();
         List<GlobalRFCableConnectedComponent> levelCCs = instance.connectedComponentsByLevel.computeIfAbsent(level.dimension(), e->new ArrayList<>());
         for(var cc : levelCCs){
 
             if(cc.contains(inputCableFace)){
-                return cc.allocateEnergyToEveryHandlers(level, opposingEnergyStorageFace, energy, simulate);
+                return cc.allocateEnergyToEveryHandlers(level, opposingEnergyStorageFace, energy, limit, level.getGameTime(), simulate);
             }
         }
         return 0;

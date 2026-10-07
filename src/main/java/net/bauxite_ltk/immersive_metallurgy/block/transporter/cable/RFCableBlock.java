@@ -16,8 +16,10 @@ import net.minecraft.core.particles.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -47,9 +49,15 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
         super(tileType, blockProps.sound(SoundType.COPPER).strength(0.5f,2));
         this.transferLimit = transferLimit;
     }
+    public static RFCableBlock forLv(Properties blockProps){
+        return new RFCableBlock(IMBlockEntities.ELECTRIC_CABLE_LV, blockProps, 512);
+    }
+    public static RFCableBlock forMv(Properties blockProps){
+        return new RFCableBlock(IMBlockEntities.ELECTRIC_CABLE_MV, blockProps, 4096);
+    }
 
     public static RFCableBlock forHv(Properties blockProps){
-        return new RFCableBlock(IMBlockEntities.ELECTRIC_CABLE_HV, blockProps, 65536);
+        return new RFCableBlock(IMBlockEntities.ELECTRIC_CABLE_HV, blockProps, 32768);
     }
 
     @Override
@@ -95,24 +103,39 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
             electrocuteTicks--;
             return;
         }
+        if(entity instanceof Player player && player.isCreative()) return;
         int extract = GlobalRFCableConnectionData.tryElectrocute(level, pos, transferLimit);
         if(extract > 0 && entity instanceof LivingEntity){
-            float damage = extract/256f;
+            float damage = Mth.sqrt(extract/128f) ;
             float voltageLevel = extract/1024f;
             float soundVolume = extract > 2048? 1.5f: 1.5f*((extract-512)/2048f);
             if(level instanceof ServerLevel serverLevel){
-                if(extract > 2048){
+                if(extract > 16384){
+                    level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 5f, 2f);
+
+                }
+                if(extract > 4096){
                     serverLevel.sendParticles(
                             ParticleTypes.FLASH,
                             entity.getX(),entity.getY(),entity.getZ(),
                             2,
-                            0.3, 0.3, 0.3,
+                            0, 0, 0,
                             0.0);
+                    level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_LARGE_BLAST, SoundSource.BLOCKS, 1.5f, 1);
+
                 }
                 if(extract > 1024){
-                    entity.hurt(IEDamageSources.causeWireDamage(level, damage, new IElectricEquipment.ElectricSource(voltageLevel)), damage);
-
+                    serverLevel.sendParticles(
+                            ParticleTypes.ELECTRIC_SPARK,
+                            entity.getX(),entity.getY(),entity.getZ(),
+                            30,
+                            0, 0, 0,
+                            1);
                     level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.BLOCKS, soundVolume, 1);
+
+                }
+                if(extract > 512){
+                    entity.hurt(IEDamageSources.causeWireDamage(level, damage, new IElectricEquipment.ElectricSource(voltageLevel)), damage);
                 }
 
             }

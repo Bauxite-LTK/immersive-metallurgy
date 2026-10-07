@@ -17,6 +17,8 @@ import java.util.*;
 public class GlobalRFCableConnectedComponent {
     HashMap<BlockFace, Vertex> vertexMap = new HashMap<>();
     Set<BlockFace> energyStorageBlockFaceSet = new HashSet<>();
+    long gameTimeLastTransfer = 0;
+    Map<IEnergyStorage, Integer> tickTransferRecord = new HashMap<>();
     boolean invalid = false;
 
     public boolean contains(BlockFace face){
@@ -37,7 +39,11 @@ public class GlobalRFCableConnectedComponent {
         energyStorageBlockFaceSet.remove(energyStorageFace);
     }
 
-    public int allocateEnergyToEveryHandlers(Level level, BlockFace inputEnergyStorageFace, int energy, boolean simulate){
+    public int allocateEnergyToEveryHandlers(Level level, BlockFace inputEnergyStorageFace, int energy, int limit, long gameTime, boolean simulate){
+        if(gameTime != gameTimeLastTransfer){
+            tickTransferRecord.clear();
+            gameTimeLastTransfer = gameTime;
+        }
         if(!energyStorageBlockFaceSet.contains(inputEnergyStorageFace)) return 0;
         List<Pair<IEnergyStorage, Integer>> consumeCapacity = new ArrayList<>();
         for(BlockFace energyStorageFace : energyStorageBlockFaceSet){
@@ -45,7 +51,9 @@ public class GlobalRFCableConnectedComponent {
             IEnergyStorage energyStorageToReceive = getLoadedEnergyStorage(level, energyStorageFace);
             if(energyStorageToReceive == null) continue;
             int canConsume = energyStorageToReceive.receiveEnergy(energy, true);
-            if(canConsume>0) consumeCapacity.add(Pair.of(energyStorageToReceive, canConsume));
+            tickTransferRecord.putIfAbsent(energyStorageToReceive, limit);
+            int consumeLimit = tickTransferRecord.get(energyStorageToReceive);
+            if(Math.min(canConsume, consumeLimit)>0) consumeCapacity.add(Pair.of(energyStorageToReceive, Math.min(canConsume, consumeLimit)));
         }
         consumeCapacity.sort(Comparator.comparingInt(Pair::value));
 
@@ -59,10 +67,13 @@ public class GlobalRFCableConnectedComponent {
                 int actualConsume = handler.receiveEnergy(thisCanConsume, simulate);
                 remainEnergy -= actualConsume;
                 baseline = actualConsume;
+
+                tickTransferRecord.compute(handler, (h,canConsumeLimit) -> canConsumeLimit - actualConsume);
             }
             else{
                 int actualConsume = handler.receiveEnergy( baseline + remainEnergy/remainHandlers, simulate);
                 remainEnergy -= actualConsume;
+                tickTransferRecord.compute(handler, (h,canConsumeLimit) -> canConsumeLimit - actualConsume);
             }
             remainHandlers--;
         }

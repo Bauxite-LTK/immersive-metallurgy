@@ -23,6 +23,7 @@ public class IMCreativeModTabs {
                 output.accept(IMBlocks.ADVANCED_COKE_OVEN_BRICKS);
                 output.accept(IMBlocks.ELECTRIC_CABLE_LV.asItem());
                 output.accept(IMBlocks.ELECTRIC_CABLE_MV.asItem());
+                output.accept(IMBlocks.ELECTRIC_CABLE_HV.asItem());
                 output.accept(IMBlocks.MASON_PINE_LOG);
                 output.accept(IMBlocks.MASON_PINE_WOOD);
                 output.accept(IMBlocks.STRIPPED_MASON_PINE_LOG);
@@ -141,8 +142,6 @@ public class IMCreativeModTabs {
                 output.accept(IMItems.WATER_GAS_BUCKET);
                 output.accept(IMItems.BLAST_FURNACE_GAS_BUCKET);
                 output.accept(IMItems.COKE_OVEN_GAS_BUCKET);
-
-                output.accept(IMBlocks.ELECTRIC_CABLE_HV.asItem());
 
             }).build()
     );

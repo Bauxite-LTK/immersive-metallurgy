@@ -64,6 +64,14 @@ public class RFCableBlockEntity extends IEBaseBlockEntity
         this.rfBlockManager = new CableBlockEnergyManager(this, transferLimit);
     }
 
+    public static RFCableBlockEntity createLv(BlockPos pos, BlockState state){
+        return new RFCableBlockEntity(IMBlockEntities.ELECTRIC_CABLE_LV.get(), pos, state, 512, IMBlocks.ELECTRIC_CABLE_LV.asItem());
+    }
+
+    public static RFCableBlockEntity createMv(BlockPos pos, BlockState state){
+        return new RFCableBlockEntity(IMBlockEntities.ELECTRIC_CABLE_MV.get(), pos, state, 4096, IMBlocks.ELECTRIC_CABLE_MV.asItem());
+    }
+
     public static RFCableBlockEntity createHv(BlockPos pos, BlockState state){
         return new RFCableBlockEntity(IMBlockEntities.ELECTRIC_CABLE_HV.get(), pos, state, 65536, IMBlocks.ELECTRIC_CABLE_HV.asItem());
     }

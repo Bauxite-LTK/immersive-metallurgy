@@ -23,8 +23,8 @@ import java.util.function.Supplier;
 public class BlockCapabilityRegistration {
     @SubscribeEvent
     public static void registerBlockCapabilities(RegisterCapabilitiesEvent event){
-        ElectricCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_LV));
-        ElectricCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_MV));
+        RFCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_LV));
+        RFCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_MV));
         RFCableBlockEntity.registerCapabilities(forType(event,IMBlockEntities.ELECTRIC_CABLE_HV));
         SapCollectorBlockEntity.registerCapabilities(forType(event,IMBlockEntities.SAP_COLLECTOR));
         CastingChannelBlockEntity.registerCapabilities(forType(event,IMBlockEntities.CASTING_CHANNEL));

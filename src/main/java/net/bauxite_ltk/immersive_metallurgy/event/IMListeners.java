@@ -185,31 +185,28 @@ public class IMListeners {
     }
 
 
-    int moduleTick = 20;
-    @SubscribeEvent
-    public void serverTickParticles(ServerTickEvent.Post event){
-        if(moduleTick > 0){
-            moduleTick--;
-            return;
-        }
-        moduleTick = 20;
-        MinecraftServer server = event.getServer();
-        for(ServerLevel level : server.getAllLevels()){
-            var levelCC = GlobalRFCableConnectionData.instance.connectedComponentsByLevel.get(level.dimension());
-            if(levelCC == null) continue;
-            for(var cc : levelCC){
-                for(var bf : cc.getAllBlockFaces()){
-                    level.sendParticles(
-                            ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, cc.hashCode()|0xFF000000),
-                            bf.pos().getX()+0.5, bf.pos().getY()+0.5, bf.pos().getZ()+0.5,
-                            1,0,0,0,0.1);
-                }
-
-            }
-        }
-
-
-    }
+//    int moduleTick = 20;
+//    @SubscribeEvent
+//    public void serverTickParticles(ServerTickEvent.Post event){
+//        if(moduleTick > 0){
+//            moduleTick--;
+//            return;
+//        }
+//        moduleTick = 20;
+//        MinecraftServer server = event.getServer();
+//        for(ServerLevel level : server.getAllLevels()){
+//            var levelCC = GlobalRFCableConnectionData.instance.connectedComponentsByLevel.get(level.dimension());
+//            if(levelCC == null) continue;
+//            for(var cc : levelCC){
+//                for(var bf : cc.getAllBlockFaces()){
+//                    level.sendParticles(
+//                            ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, cc.hashCode()|0xFF000000),
+//                            bf.pos().getX()+0.5, bf.pos().getY()+0.5, bf.pos().getZ()+0.5,
+//                            1,0,0,0,0.1);
+//                }
+//            }
+//        }
+//    }
 
     @SubscribeEvent
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
@@ -229,7 +226,7 @@ public class IMListeners {
         cable.removeAndDropItems(player, event.getLevel());
 
         event.setCanceled(true);
-        event.setCancellationResult(InteractionResult.SUCCESS);           // 控制客户端挥手/动画
+        event.setCancellationResult(InteractionResult.SUCCESS);
     }
 
 

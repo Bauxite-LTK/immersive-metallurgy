@@ -273,7 +273,7 @@
 
 
   "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t 每个端子",
-  "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 2048 RF/t 每个端子",
+  "tooltip.immersive_metallurgy.electric_cable_mv.idle": "§a▼§r 4096 RF/t 每个端子",
   "tooltip.immersive_metallurgy.electric_cable_hv.idle": "§a▼§r 65536 RF/t 每个端子",
   "tooltip.immersive_metallurgy.casting_channel.idle": "§b●§r 速率跟随输入",
   "tooltip.immersive_metallurgy.ingot_pig_iron.idle": "可在§d电弧炉§r中加工成钢锭",

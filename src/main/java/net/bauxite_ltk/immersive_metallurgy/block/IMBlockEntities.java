@@ -67,12 +67,12 @@ public class IMBlockEntities {
     );
 
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectricCableBlockEntity>> ELECTRIC_CABLE_LV = BLOCK_ENTITIES.register(
-            "electric_cable_lv", makeType(ElectricCableBlockEntity::forLv, IMBlocks.ELECTRIC_CABLE_LV)
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RFCableBlockEntity>> ELECTRIC_CABLE_LV = BLOCK_ENTITIES.register(
+            "electric_cable_lv", makeType(RFCableBlockEntity::createLv, IMBlocks.ELECTRIC_CABLE_LV)
     );
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectricCableBlockEntity>> ELECTRIC_CABLE_MV = BLOCK_ENTITIES.register(
-            "electric_cable_mv", makeType(ElectricCableBlockEntity::forMv, IMBlocks.ELECTRIC_CABLE_MV)
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RFCableBlockEntity>> ELECTRIC_CABLE_MV = BLOCK_ENTITIES.register(
+            "electric_cable_mv", makeType(RFCableBlockEntity::createMv, IMBlocks.ELECTRIC_CABLE_MV)
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RFCableBlockEntity>> ELECTRIC_CABLE_HV = BLOCK_ENTITIES.register(
