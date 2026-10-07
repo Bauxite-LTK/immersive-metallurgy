@@ -1,9 +1,10 @@
-package net.bauxite_ltk.immersive_metallurgy.block.transporter.cable;
+package net.bauxite_ltk.immersive_metallurgy.callback;
 
 import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.api.client.ieobj.BlockCallback;
 import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
 import com.mojang.math.Transformation;
+import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.ICableBEImplements;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.CableConnectionKey;
 import net.bauxite_ltk.immersive_metallurgy.util.IMUtils;
 import net.minecraft.core.BlockPos;

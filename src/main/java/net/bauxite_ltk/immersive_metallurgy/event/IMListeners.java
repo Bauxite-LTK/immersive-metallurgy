@@ -3,7 +3,6 @@ package net.bauxite_ltk.immersive_metallurgy.event;
 import blusunrize.immersiveengineering.api.utils.SafeChunkUtils;
 import blusunrize.immersiveengineering.common.register.IEItems;
 import it.unimi.dsi.fastutil.longs.*;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.ElectricCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.ICableBEImplements;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.data.global.GlobalRFCableConnectionData;
@@ -33,38 +32,6 @@ import java.util.Map;
 
 
 public class IMListeners {
-    @SubscribeEvent
-    public void forElectricCable(BlockEvent.NeighborNotifyEvent event){
-        Level eventLevel = (Level)event.getLevel();
-        if(eventLevel.isClientSide) return;
-        BlockPos updatePos = event.getPos();
-        //IMUtils.LOGGER.info("[forElectricCable] updatePos:{}", updatePos);
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                for(int k = -1; k <= 1; k++){
-                    BlockPos targetPos = updatePos.offset(i,j,k);
-                    if(targetPos == updatePos) continue;
-                    if(SafeChunkUtils.getSafeBE(eventLevel, targetPos) instanceof ElectricCableBlockEntity targetElectricCable){
-                        if(targetElectricCable.updateBackCornerConnection(updatePos)) {
-                            targetElectricCable.updateAllRootNode();
-                            //targetElectricCable.invalidateCapabilities();
-                            Level world = targetElectricCable.getLevelNonnull();
-                            world.sendBlockUpdated(targetPos, targetElectricCable.getBlockState(), targetElectricCable.getBlockState(), 3);
-                        }
-                        if(SafeChunkUtils.getSafeBE(eventLevel, updatePos) instanceof ElectricCableBlockEntity thisElectricCable){
-                            if(thisElectricCable.updateBackCornerConnection(targetPos)) {
-                                thisElectricCable.updateAllRootNode();
-                                //thisElectricCable.invalidateCapabilities();
-                                Level world = thisElectricCable.getLevelNonnull();
-                                world.sendBlockUpdated(updatePos, thisElectricCable.getBlockState(), thisElectricCable.getBlockState(), 3);
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-    }
 
     // Map<Long, Long>: Origin -> Notified
     private static final Map<ResourceKey<Level>, Long2LongMap> PENDING_STRAIGHT = new HashMap<>();

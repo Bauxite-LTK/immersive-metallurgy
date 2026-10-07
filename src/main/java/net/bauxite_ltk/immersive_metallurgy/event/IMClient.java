@@ -6,9 +6,8 @@ import net.bauxite_ltk.immersive_metallurgy.Config;
 import net.bauxite_ltk.immersive_metallurgy.ImmersiveMetallurgy;
 import net.bauxite_ltk.immersive_metallurgy.block.IMBlockEntities;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblockLogic;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.AttachmentCableCallbacks;
+import net.bauxite_ltk.immersive_metallurgy.callback.AttachmentCableCallbacks;
 import net.bauxite_ltk.immersive_metallurgy.callback.CastingChannelCallbacks;
-import net.bauxite_ltk.immersive_metallurgy.callback.ElectricCableCallbacks;
 import net.bauxite_ltk.immersive_metallurgy.gui.IMMenuTypes;
 import net.bauxite_ltk.immersive_metallurgy.gui.multiblock.*;
 import net.bauxite_ltk.immersive_metallurgy.particle.DripSapParticles;
@@ -29,7 +28,6 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = ImmersiveMetallurgy.MOD_ID, value = Dist.CLIENT)
 public class IMClient {
     public static void modConstruction(){
-        IEOBJCallbacks.register(IMUtils.modRL("electric_cable"), ElectricCableCallbacks.INSTANCE);
         IEOBJCallbacks.register(AttachmentCableCallbacks.CALLBACK_RL, AttachmentCableCallbacks.INSTANCE);
         IEOBJCallbacks.register(IMUtils.modRL("casting_channel"), CastingChannelCallbacks.INSTANCE);
         //IEOBJCallbacks.register(IMUtils.modRL("electric_cable_mv"), ElectricCableCallbacks.INSTANCE);
