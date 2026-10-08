@@ -4,7 +4,7 @@
     "name": "immersive_metallurgy:multiblocks/advanced_coke_oven"
   },
 
-  "elite_blast_furnace0": {
+  "advanced_coke_oven0": {
     "type": "item_display",
     "items": [
       "minecraft:coal",
@@ -12,7 +12,7 @@
     ]
   },
 
-  "elite_blast_furnace1": {
+  "advanced_coke_oven1": {
     "type": "item_display",
     "items": [
       "immersive_metallurgy:bucket/coke_oven_gas",

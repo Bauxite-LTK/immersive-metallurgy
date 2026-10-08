@@ -1,0 +1,16 @@
+高级焦炉机组
+连成一排
+<&multiblock>
+高级焦炉机组是一种更有效率的炼焦设备，而且可以产出有用的煤气。<np>
+
+<&advanced_coke_oven0>
+§l煤炭炼焦§r
+焦炉机组从顶部接受§1煤炭§r，机组可视为四台能够独立运作的焦炉§r。<br>
+炼焦的进度会显示在炉门上，炼焦完成后，机组前方的炉门会自动打开并弹出炼好的§1焦炭§r<np>
+
+<&advanced_coke_oven1>
+§l流体产物§r
+机组前上方的管道输出炼焦产生的§1杂酚油§r，同时机组顶部的管道输出炼焦产生的§1焦炉煤气§r。<br>
+§1焦炉煤气§r可用作<link;immersive_metallurgy:gas_fuel;燃气燃料;start>或<link;immersive_metallurgy:hot_air_furnace;燃气热风炉;multiblock> <br>
+
+
