@@ -2,6 +2,7 @@ package net.bauxite_ltk.immersive_metallurgy.block.transporter.cable;
 
 import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.api.tool.IElectricEquipment;
+import blusunrize.immersiveengineering.api.wires.utils.IElectricDamageSource;
 import blusunrize.immersiveengineering.client.fx.IEParticleType;
 import blusunrize.immersiveengineering.common.blocks.IEEntityBlock;
 import blusunrize.immersiveengineering.common.util.IEDamageSources;
@@ -32,6 +33,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import static blusunrize.immersiveengineering.api.wires.localhandlers.WireDamageHandler.GET_WIRE_DAMAGE;
 
 public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
 
@@ -105,7 +109,7 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
         }
         if(entity instanceof Player player && player.isCreative()) return;
         int extract = GlobalRFCableConnectionData.tryElectrocute(level, pos, transferLimit);
-        if(extract > 0 && entity instanceof LivingEntity){
+        if(extract > 0 && entity instanceof LivingEntity livingEntity){
             float damage = Mth.sqrt(extract/128f) ;
             float voltageLevel = extract/1024f;
             float soundVolume = extract > 2048? 1.5f: 1.5f*((extract-512)/2048f);
@@ -117,7 +121,7 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
                 if(extract > 4096){
                     serverLevel.sendParticles(
                             ParticleTypes.FLASH,
-                            entity.getX(),entity.getY(),entity.getZ(),
+                            livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),
                             2,
                             0, 0, 0,
                             0.0);
@@ -127,7 +131,7 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
                 if(extract > 1024){
                     serverLevel.sendParticles(
                             ParticleTypes.ELECTRIC_SPARK,
-                            entity.getX(),entity.getY(),entity.getZ(),
+                            livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),
                             30,
                             0, 0, 0,
                             1);
@@ -135,7 +139,12 @@ public class RFCableBlock extends IEEntityBlock<RFCableBlockEntity> {
 
                 }
                 if(extract > 512){
-                    entity.hurt(IEDamageSources.causeWireDamage(level, damage, new IElectricEquipment.ElectricSource(voltageLevel)), damage);
+                    IElectricDamageSource dmg = GET_WIRE_DAMAGE.get().make(
+                            livingEntity.level(), damage, new IElectricEquipment.ElectricSource(Math.min(1.5f, voltageLevel))
+                    );
+                    dmg.apply(livingEntity);
+                    Vec3 lookAngle = livingEntity.getLookAngle();
+                    livingEntity.knockback(damage/5, lookAngle.x, lookAngle.y);
                 }
 
             }

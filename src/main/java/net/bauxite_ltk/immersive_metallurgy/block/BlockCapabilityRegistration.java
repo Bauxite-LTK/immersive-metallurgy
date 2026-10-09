@@ -2,7 +2,6 @@ package net.bauxite_ltk.immersive_metallurgy.block;
 
 
 import net.bauxite_ltk.immersive_metallurgy.ImmersiveMetallurgy;
-import net.bauxite_ltk.immersive_metallurgy.block.transporter.ElectricCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.cable.RFCableBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.transporter.casting_channel.CastingChannelBlockEntity;
 import net.bauxite_ltk.immersive_metallurgy.block.sapCollector.SapCollectorBlockEntity;

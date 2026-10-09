@@ -8,9 +8,14 @@
     {
       "item": "immersiveengineering:connector_hv"
     },
-    {
-      "item": "immersiveengineering:slag_glass"
-    }
+    [
+      {
+        "item": "immersiveengineering:insulating_glass"
+      },
+      {
+        "item": "immersiveengineering:slag_glass"
+      }
+    ]
   ],
   "result": {
     "count": 8,
