@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "bark",
+  "key": { "#": { "item": "immersive_metallurgy:stripped_mason_pine_log" } },
+  "pattern": [ "##", "##" ],
+  "result": { "id": "immersive_metallurgy:stripped_mason_pine_wood", "count": 3 }
+}

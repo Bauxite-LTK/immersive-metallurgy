@@ -1,0 +1,14 @@
+{
+  "type": "immersiveengineering:arc_furnace",
+  "additives": [],
+  "energy": 51200,
+  "input": {
+    "item": "immersive_metallurgy:pure_ore_chunk_raw_silver"
+  },
+  "results": [
+    {
+      "tag": "c:ingots/silver"
+    }
+  ],
+  "time": 100
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "wooden_fence",
+  "key": {
+    "#": { "item": "immersive_metallurgy:mason_pine_planks" },
+    "|": { "item": "minecraft:stick" }
+  },
+  "pattern": [ "#|#", "#|#" ],
+  "result": { "id": "immersive_metallurgy:mason_pine_fence", "count": 3 }
+}

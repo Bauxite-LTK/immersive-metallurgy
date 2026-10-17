@@ -1,0 +1,14 @@
+{
+  "type": "immersiveengineering:arc_furnace",
+  "additives": [],
+  "energy": 51200,
+  "input": {
+    "item": "immersive_metallurgy:pure_ore_chunk_raw_aluminum"
+  },
+  "results": [
+    {
+      "tag": "c:ingots/aluminum"
+    }
+  ],
+  "time": 100
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    { "tag": "immersive_metallurgy:mason_pine_logs" }
+  ],
+  "result": {
+    "id": "immersive_metallurgy:mason_pine_planks",
+    "count": 4
+  }
+}

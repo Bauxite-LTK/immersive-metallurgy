@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    { "item": "immersive_metallurgy:mason_pine_planks" }
+  ],
+  "result": { "id": "immersive_metallurgy:mason_pine_button" }
+}
