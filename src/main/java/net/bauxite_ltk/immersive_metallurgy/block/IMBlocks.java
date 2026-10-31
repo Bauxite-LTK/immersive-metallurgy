@@ -73,6 +73,7 @@ public class IMBlocks {
     public static final DeferredBlock<FlameableTrapDoorBlock> MASON_PINE_TRAP_DOOR= registerBlock("mason_pine_trapdoor", ()-> new FlameableTrapDoorBlock(BlockSetType.SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR), 20, 5));
 
     public static final DeferredBlock<Block> PIG_IRON_BLOCK = registerBlock("pig_iron_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final DeferredBlock<Block> PLATINUM_BLOCK = registerBlockIM("platinum_block", "ingot_platinum.idle" ,() -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK).sound(SoundType.METAL)), new Item.Properties().fireResistant());
     public static final DeferredBlock<Block> ADVANCED_COKE_OVEN_BRICKS = registerBlock("advanced_coke_oven_bricks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
 
@@ -159,12 +160,22 @@ public class IMBlocks {
         return toReturn;
     }
 
+    public static <T extends Block> DeferredBlock<T> registerBlockIM(String name, String tooltip, Supplier<T> block, Item.Properties itemProperties){
+        DeferredBlock<T> toReturn = BLOCKS.register(name,block);
+        registerBlockItemIM(name, tooltip, toReturn, itemProperties);
+        return toReturn;
+    }
+
     public static <T extends Block> void registerBlockItemIE(String name, DeferredBlock<T> block){
         IMItems.ITEMS.register(name, () -> new BlockItemIE(block.get(), new Item.Properties()));
     }
 
     public static <T extends Block> void registerBlockItemIM(String name, String tooltip, DeferredBlock<T> block){
         IMItems.ITEMS.register(name, () -> new IMBaseBlockItem(block.get(), tooltip, new Item.Properties()));
+    }
+
+    public static <T extends Block> void registerBlockItemIM(String name, String tooltip, DeferredBlock<T> block, Item.Properties itemProperties){
+        IMItems.ITEMS.register(name, () -> new IMBaseBlockItem(block.get(), tooltip, itemProperties));
     }
 
     private static <T extends Block> DeferredBlock<T> registerNoItem(String name, Supplier<T> block)

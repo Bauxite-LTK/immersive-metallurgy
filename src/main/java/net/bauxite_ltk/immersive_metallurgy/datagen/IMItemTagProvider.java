@@ -77,7 +77,12 @@ public class IMItemTagProvider extends ItemTagsProvider {
 
         this.tag(ItemTags.SAPLINGS).add(IMBlocks.MASON_PINE_SAPLING.asItem());
 
-        this.tag(Tags.Items.INGOTS).add(IMItems.PIG_IRON_INGOT.get());
+        this.tag(Tags.Items.INGOTS)
+                .add(IMItems.PIG_IRON_INGOT.get())
+                .add(IMItems.PLATINUM_INGOT.get());
+
+        this.tag(Tags.Items.NUGGETS)
+                .add(IMItems.PLATINUM_NUGGET.get());
 
     }
 }

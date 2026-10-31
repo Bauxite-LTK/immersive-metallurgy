@@ -100,6 +100,7 @@ public class IMBlockTagProvider extends BlockTagsProvider {
                 .add(IMMultiblocks.CONTINUOUS_CASTING_MACHINE.getBlock())
                 .add(IMMultiblocks.ADVANCED_COKE_OVEN.getBlock())
                 .add(IMBlocks.PIG_IRON_BLOCK.get())
+                .add(IMBlocks.PLATINUM_BLOCK.get())
                 .add(IMBlocks.ADVANCED_COKE_OVEN_BRICKS.get())
                 .add(IMBlocks.ELECTRIC_CABLE_LV.get())
                 .add(IMBlocks.ELECTRIC_CABLE_MV.get())
