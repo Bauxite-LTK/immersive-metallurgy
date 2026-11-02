@@ -270,6 +270,8 @@
   "block.immersive_metallurgy.mason_pine_sapling": "Mason Pine Sapling",
   "block.immersive_metallurgy.pig_iron_block": "Pig Iron Block",
   "block.immersive_metallurgy.platinum_block": "Platinum Block",
+  "block.immersive_metallurgy.platinum_ore": "Platinum Ore",
+  "block.immersive_metallurgy.deepslate_platinum_ore": "Deepslate Platinum Ore",
   "block.immersive_metallurgy.advanced_coke_oven_bricks": "Advanced Coke Oven Bricks",
 
   "tooltip.immersive_metallurgy.electric_cable_lv.idle": "§a▼§r 512 RF/t per Terminal",
@@ -277,6 +279,7 @@
   "tooltip.immersive_metallurgy.electric_cable_hv.idle": "§a▼§r 65536 RF/t per Terminal",
   "tooltip.immersive_metallurgy.casting_channel.idle": "§b●§r Trace Input",
   "tooltip.immersive_metallurgy.ingot_pig_iron.idle": "Can process into Steel in §dArc Furnace§r",
+  "tooltip.immersive_metallurgy.platinum_ore.idle": "§7Pure white and shiny ore§r",
   "tooltip.immersive_metallurgy.ingot_platinum.idle": "§7Scarcity is its only drawback§r",
   "tooltip.immersive_metallurgy.blast_furnace_iron_pellet.idle": "§c▲§r 1500°C",
 
@@ -289,6 +292,7 @@
   "item.immersive_metallurgy.colophony_bottle": "Colophony Bottle",
   "item.immersive_metallurgy.colophony": "Colophony",
   "item.immersive_metallurgy.ingot_pig_iron": "Pig Iron Ingot",
+  "item.immersive_metallurgy.raw_platinum": "Raw Platinum",
   "item.immersive_metallurgy.ingot_platinum": "Platinum Ingot",
   "item.immersive_metallurgy.nugget_platinum": "Platinum Nugget",
   "item.immersive_metallurgy.blast_furnace_iron_pellet": "Blast Furnace Pellet",

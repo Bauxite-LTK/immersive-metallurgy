@@ -270,6 +270,8 @@
   "block.immersive_metallurgy.mason_pine_sapling": "马尾松树苗",
   "block.immersive_metallurgy.pig_iron_block": "生铁块",
   "block.immersive_metallurgy.platinum_block": "铂块",
+  "block.immersive_metallurgy.platinum_ore": "铂矿石",
+  "block.immersive_metallurgy.deepslate_platinum_ore": "深层铂矿石",
   "block.immersive_metallurgy.advanced_coke_oven_bricks": "强化焦炉砖",
 
 
@@ -278,6 +280,7 @@
   "tooltip.immersive_metallurgy.electric_cable_hv.idle": "§a▼§r 65536 RF/t 每个端子",
   "tooltip.immersive_metallurgy.casting_channel.idle": "§b●§r 速率跟随输入",
   "tooltip.immersive_metallurgy.ingot_pig_iron.idle": "可在§d电弧炉§r中加工成钢锭",
+  "tooltip.immersive_metallurgy.platinum_ore.idle": "§7洁白而闪亮的矿石§r",
   "tooltip.immersive_metallurgy.ingot_platinum.idle": "§7稀缺是它唯一的缺点§r",
   "tooltip.immersive_metallurgy.blast_furnace_iron_pellet.idle": "§c▲§r 1500°C",
 
@@ -290,6 +293,7 @@
   "item.immersive_metallurgy.colophony_bottle": "松香瓶",
   "item.immersive_metallurgy.colophony": "松香",
   "item.immersive_metallurgy.ingot_pig_iron": "生铁锭",
+  "item.immersive_metallurgy.raw_platinum": "粗铂",
   "item.immersive_metallurgy.ingot_platinum": "铂锭",
   "item.immersive_metallurgy.nugget_platinum": "铂粒",
   "item.immersive_metallurgy.blast_furnace_iron_pellet": "高炉炉料饼",

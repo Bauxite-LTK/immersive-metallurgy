@@ -63,6 +63,7 @@ public class IMItemModelProvider extends ItemModelProvider {
         
         basicItem(IMItems.COLOPHONY.get());
         basicItem(IMItems.PIG_IRON_INGOT.get());
+        basicItem(IMItems.RAW_PLATINUM.get());
         basicItem(IMItems.PLATINUM_INGOT.get());
         basicItem(IMItems.PLATINUM_NUGGET.get());
         basicItem(IMItems.PIG_IRON_BLAST_FURNACE_PELLET.get());

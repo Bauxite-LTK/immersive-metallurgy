@@ -23,6 +23,8 @@ public class IMBlockStateProvider extends BlockStateProvider {
         blockWithItem(IMBlocks.MASON_PINE_PLANKS);
         blockWithItem(IMBlocks.PIG_IRON_BLOCK);
         blockWithItem(IMBlocks.PLATINUM_BLOCK);
+        blockWithItem(IMBlocks.PLATINUM_ORE);
+        blockWithItem(IMBlocks.PLATINUM_ORE_DEEPSLATE);
         blockWithItem(IMBlocks.ADVANCED_COKE_OVEN_BRICKS);
 
         logBlock(IMBlocks.MASON_PINE_LOG.get());

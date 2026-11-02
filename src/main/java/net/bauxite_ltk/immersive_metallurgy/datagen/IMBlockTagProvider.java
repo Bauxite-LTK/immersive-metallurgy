@@ -101,11 +101,18 @@ public class IMBlockTagProvider extends BlockTagsProvider {
                 .add(IMMultiblocks.ADVANCED_COKE_OVEN.getBlock())
                 .add(IMBlocks.PIG_IRON_BLOCK.get())
                 .add(IMBlocks.PLATINUM_BLOCK.get())
+                .add(IMBlocks.PLATINUM_ORE.get())
+                .add(IMBlocks.PLATINUM_ORE_DEEPSLATE.get())
                 .add(IMBlocks.ADVANCED_COKE_OVEN_BRICKS.get())
                 .add(IMBlocks.ELECTRIC_CABLE_LV.get())
                 .add(IMBlocks.ELECTRIC_CABLE_MV.get())
                 .add(IMBlocks.CASTING_CHANNEL.get())
                 .add(IMBlocks.SAP_COLLECTOR.get());
+
+        this.tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(IMBlocks.PLATINUM_ORE.get())
+                .add(IMBlocks.PLATINUM_ORE_DEEPSLATE.get());
+
 
 
 

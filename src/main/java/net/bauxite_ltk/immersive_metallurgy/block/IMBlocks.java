@@ -73,6 +73,8 @@ public class IMBlocks {
     public static final DeferredBlock<FlameableTrapDoorBlock> MASON_PINE_TRAP_DOOR= registerBlock("mason_pine_trapdoor", ()-> new FlameableTrapDoorBlock(BlockSetType.SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR), 20, 5));
 
     public static final DeferredBlock<Block> PIG_IRON_BLOCK = registerBlock("pig_iron_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final DeferredBlock<Block> PLATINUM_ORE = registerBlockIM("platinum_ore", "platinum_ore.idle", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_ORE)), new Item.Properties().fireResistant());
+    public static final DeferredBlock<Block> PLATINUM_ORE_DEEPSLATE = registerBlockIM("deepslate_platinum_ore", "platinum_ore.idle", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_DIAMOND_ORE)), new Item.Properties().fireResistant());
     public static final DeferredBlock<Block> PLATINUM_BLOCK = registerBlockIM("platinum_block", "ingot_platinum.idle" ,() -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK).sound(SoundType.METAL)), new Item.Properties().fireResistant());
     public static final DeferredBlock<Block> ADVANCED_COKE_OVEN_BRICKS = registerBlock("advanced_coke_oven_bricks", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 

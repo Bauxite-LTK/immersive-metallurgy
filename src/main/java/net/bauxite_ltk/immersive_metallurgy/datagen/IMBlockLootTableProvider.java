@@ -3,6 +3,7 @@ package net.bauxite_ltk.immersive_metallurgy.datagen;
 import net.bauxite_ltk.immersive_metallurgy.block.IMBlocks;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.IMMultiblockLogic;
 import net.bauxite_ltk.immersive_metallurgy.block.multiblock.logic.BallMillLogic;
+import net.bauxite_ltk.immersive_metallurgy.item.IMItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -54,6 +55,12 @@ public class IMBlockLootTableProvider extends BlockLootSubProvider {
                 createLeavesDrops(IMBlocks.MASON_PINE_SAPLING.get(),
                         IMBlocks.MASON_PINE_SAPLING.get(),
                         NORMAL_LEAVES_SAPLING_CHANCES));
+        add(IMBlocks.PLATINUM_ORE.get(),
+                createOreDrop(IMBlocks.PLATINUM_ORE.get(), IMItems.RAW_PLATINUM.get())
+        );
+        add(IMBlocks.PLATINUM_ORE_DEEPSLATE.get(),
+                createOreDrop(IMBlocks.PLATINUM_ORE.get(), IMItems.RAW_PLATINUM.get())
+        );
 
 
     }

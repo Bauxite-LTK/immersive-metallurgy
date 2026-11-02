@@ -84,5 +84,8 @@ public class IMItemTagProvider extends ItemTagsProvider {
         this.tag(Tags.Items.NUGGETS)
                 .add(IMItems.PLATINUM_NUGGET.get());
 
+        this.tag(Tags.Items.RAW_MATERIALS)
+                .add(IMItems.RAW_PLATINUM.get());
+
     }
 }

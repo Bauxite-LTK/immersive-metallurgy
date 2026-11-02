@@ -481,6 +481,7 @@ public class IMItems {
 
     public static final DeferredItem<Item> COLOPHONY = ITEMS.register("colophony", ()-> new FurnaceFuelItem(1600));
     public static final DeferredItem<Item> PIG_IRON_INGOT = registerSimpleItemWithTooltip("ingot_pig_iron","ingot_pig_iron.idle");
+    public static final DeferredItem<Item> RAW_PLATINUM = registerSimpleItemWithTooltip("raw_platinum","platinum_ore.idle", new Item.Properties().fireResistant());
     public static final DeferredItem<Item> PLATINUM_INGOT = registerSimpleItemWithTooltip("ingot_platinum","ingot_platinum.idle", new Item.Properties().fireResistant());
     public static final DeferredItem<Item> PLATINUM_NUGGET = registerSimpleItemWithTooltip("nugget_platinum","ingot_platinum.idle", new Item.Properties().fireResistant());
     public static final DeferredItem<Item> PIG_IRON_BLAST_FURNACE_PELLET = registerSimpleItemWithTooltip("blast_furnace_iron_pellet","blast_furnace_iron_pellet.idle");
